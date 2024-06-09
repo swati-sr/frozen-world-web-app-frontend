@@ -1,4 +1,5 @@
 import { WEB_APP_NAME } from "@/utils/constants";
+import Link from "next/link";
 import React from "react";
 
 const Header = () => {
@@ -21,10 +22,10 @@ const Header = () => {
       </div>
       <div className="pt-2 font-medium text-base">
         <span className="pr-3 text-primary hover:cursor-pointer hover:border-2 hover:rounded-md hover:px-5 hover:py-2 hover:border-primary hover:mr-2">
-          Sign In
+          <Link href="/signin">Sign In</Link>
         </span>
         <span className="px-4 text-bright border-2 rounded-md border-bright p-2 hover:cursor-pointer hover:shadow-lg">
-          Sign Up
+          <Link href="signup">Sign Up</Link>
         </span>
       </div>
     </div>
