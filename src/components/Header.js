@@ -1,20 +1,32 @@
-import { WEB_APP_NAME } from "@/utils/constants";
+"use client";
+import { WEB_APP_NAME, FOOD_ITEM_LIST } from "@/utils/constants";
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
 
 const Header = () => {
+  const [showFoodItem, setShowFoodItem] = useState(false);
+
+  const handleFoodProduct = () => {
+    setShowFoodItem(!showFoodItem);
+  };
+
   return (
     <div className="m-3 py-2 px-1 flex justify-around">
       <h2 className="text-primary font-bold text-3xl">{WEB_APP_NAME}</h2>
-      <div className="text-secondary font-medium text-lg pt-2">
+      <div className="flex text-secondary font-medium text-base pt-2">
         <span className="pr-4 hover:cursor-pointer hover:text-primary">
           Home
         </span>
+        <div className="relative">
+          <span
+            className="pr-4 hover:cursor-pointer hover:text-primary"
+            onClick={handleFoodProduct}
+          >
+            Food Products
+          </span>
+        </div>
         <span className="pr-4 hover:cursor-pointer hover:text-primary">
-          Menu
-        </span>
-        <span className="pr-4 hover:cursor-pointer hover:text-primary">
-          Services
+          Wholesale
         </span>
         <span className="pr-4 hover:cursor-pointer hover:text-primary">
           About

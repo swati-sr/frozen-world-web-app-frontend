@@ -68,7 +68,9 @@ const SignIn = () => {
           </button>
           <div className="flex gap-4 mt-2">
             <h3 className="font-medium">Don't have an account yet?</h3>
-            <span className="text-bright font-medium">SignUp</span>
+            <span className="text-bright font-medium">
+              <Link href="/signup">SignUp</Link>
+            </span>
           </div>
         </form>
       </div>
