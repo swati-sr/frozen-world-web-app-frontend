@@ -1,4 +1,4 @@
-export const checkValidation = (fullName, email, password, contact) => {
+export const checkSignupValidation = (fullName, email, password, contact) => {
   const isValidEmail = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email);
   const isValidPassword =
     /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/.test(password);
@@ -14,4 +14,13 @@ export const checkValidation = (fullName, email, password, contact) => {
   if (!isValidEmail) return "Email is invalid";
   if (!isValidPassword) return "Password is invalid";
   if (!isValidContact) return "Contact is invalid";
+};
+
+export const checkSigninValidation = (email, password) => {
+  const isValidEmail = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email);
+  // const isValidPassword =
+  //   /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/.test(password);
+
+  if (!isValidEmail) return "Email is invalid";
+  // if (!isValidPassword) return "Password is invalid";
 };
