@@ -2,20 +2,24 @@
 import React, { useState } from "react";
 import Card from "./Card";
 import food1 from "../../public/food1.jpg";
-import { FOOD_ITEM_LIST } from "@/utils/constants";
+import { FOOD_PRODUCT_LIST } from "@/utils/constants";
 
 const ProductContainer = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const prevSlide = () => {
     setCurrentIndex((prevIndex) =>
-      prevIndex === 0 ? Math.ceil(FOOD_ITEM_LIST.length / 2) - 1 : prevIndex - 1
+      prevIndex === 0
+        ? Math.ceil(FOOD_PRODUCT_LIST.length / 2) - 1
+        : prevIndex - 1
     );
   };
 
   const nextSlide = () => {
     setCurrentIndex((prevIndex) =>
-      prevIndex === Math.ceil(FOOD_ITEM_LIST.length / 2) - 1 ? 0 : prevIndex + 1
+      prevIndex === Math.ceil(FOOD_PRODUCT_LIST.length / 2) - 1
+        ? 0
+        : prevIndex + 1
     );
   };
 
@@ -25,7 +29,7 @@ const ProductContainer = () => {
         className="flex transition-transform ease-in-out duration-500 px-12"
         style={{ transform: `translateX(-${currentIndex * 50}%)` }}
       >
-        {FOOD_ITEM_LIST.map((item) => (
+        {FOOD_PRODUCT_LIST.map((item) => (
           <div key={item.id} className="w-[53%] flex-shrink-0">
             <Card productImage={food1} heading={item.name} id={item.id} />
           </div>

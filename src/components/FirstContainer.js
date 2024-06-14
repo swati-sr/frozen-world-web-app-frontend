@@ -4,10 +4,12 @@ import pizza from "../../public/pizza.png";
 
 const FirstContainer = () => {
   return (
-    <div className="flex justify-around my-10 px-10">
+    <div className="flex my-10 pl-[7.5rem] h-screen w-fit">
       <div className="mt-20">
         <h1 className="font-bold text-5xl">Chill Your World</h1>{" "}
-        <span className="font-bold text-5xl">& Unveil Frozen Delights 🍨</span>
+        <span className="font-bold text-5xl">
+          & Unveil <br /> Frozen Delights 🍨
+        </span>
         <p className="my-8 text-lg">
           Taste the magic of frozen wonders today with our delicious frozen
           treat.
@@ -16,7 +18,11 @@ const FirstContainer = () => {
           Know More
         </button>
       </div>
-      <Image className={`${"spin-slow"} py-16`} src={pizza} alt="food-image" />
+      <Image
+        className={`${"spin-slow"} py-16 relative left-[16%] h-[80%] w-[41%]`}
+        src={pizza}
+        alt="food-image"
+      />
     </div>
   );
 };

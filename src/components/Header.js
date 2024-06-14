@@ -11,12 +11,12 @@ const Header = () => {
   };
 
   return (
-    <div className="m-3 py-2 px-1 flex justify-around">
+    <div className="m-3 py-6 px-1 flex justify-around ">
       <h2 className="text-primary font-bold text-3xl">{WEB_APP_NAME}</h2>
       <div className="flex text-secondary font-medium text-base pt-2">
-        <span className="pr-4 hover:cursor-pointer hover:text-primary">
+        <Link className="pr-4 hover:cursor-pointer hover:text-primary" href="/">
           Home
-        </span>
+        </Link>
         <div className="relative">
           <span
             className="pr-4 hover:cursor-pointer hover:text-primary"
