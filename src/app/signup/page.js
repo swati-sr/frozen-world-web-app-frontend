@@ -3,7 +3,7 @@ import React from "react";
 import Image from "next/image";
 import girlEating from "../../../public/girlEating.png";
 import { useRef, useState } from "react";
-import { checkValidation } from "@/utils/validate";
+import { checkSignupValidation } from "@/utils/validate";
 import Link from "next/link";
 
 const SignUp = () => {
@@ -14,7 +14,7 @@ const SignUp = () => {
   const [errorMsg, setErrorMsg] = useState(null);
 
   const handleSignUpSubmit = () => {
-    const validationCheckMsg = checkValidation(
+    const validationCheckMsg = checkSignupValidation(
       email.current?.value,
       password.current?.value,
       fullName.current?.value,

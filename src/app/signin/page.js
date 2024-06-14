@@ -4,20 +4,48 @@ import Image from "next/image";
 import Link from "next/link";
 import boyEating from "../../../public/boyEating.png";
 import { useRef, useState } from "react";
-import { checkValidation } from "@/utils/validate";
+import { checkSigninValidation } from "@/utils/validate";
+import { API_BASE_URL } from "@/utils/constants";
+import { useRouter } from "next/navigation";
 
 const SignIn = () => {
   const email = useRef(null);
   const password = useRef(null);
   const [errorMsg, setErrorMsg] = useState(null);
+  const router = useRouter();
 
-  const handleSignInSubmit = () => {
-    const validationCheckMsg = checkValidation(
-      email.current?.value,
-      password.current?.value
-    );
+  const handleSignInSubmit = async () => {
+    const validationCheckMsg = checkSigninValidation(email.current?.value);
     setErrorMsg(validationCheckMsg);
     if (validationCheckMsg) return;
+
+    try {
+      const payload = {
+        username: email.current?.value,
+        password: password.current?.value,
+      };
+
+      const response = await fetch(`${API_BASE_URL}/login`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+
+      const json = await response.json();
+      console.log("JSON", json);
+      if (json.success) {
+        router.push("/");
+      }
+    } catch (error) {
+      console.error("There was a problem with the fetch operation:", error);
+      setErrorMsg(error.message);
+    }
   };
 
   return (
