@@ -1,13 +1,21 @@
 "use client";
+import { logout } from "@/lib/features/authSlice";
 import { WEB_APP_NAME, FOOD_ITEM_LIST } from "@/utils/constants";
 import Link from "next/link";
 import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 const Header = () => {
+  const { token } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
   const [showFoodItem, setShowFoodItem] = useState(false);
 
   const handleFoodProduct = () => {
     setShowFoodItem(!showFoodItem);
+  };
+
+  const handleSignout = () => {
+    dispatch(logout());
   };
 
   return (
@@ -33,12 +41,20 @@ const Header = () => {
         </span>
       </div>
       <div className="pt-2 font-medium text-base">
-        <span className="pr-3 text-primary hover:cursor-pointer hover:border-2 hover:rounded-md hover:px-5 hover:py-2 hover:border-primary hover:mr-2">
-          <Link href="/signin">Sign In</Link>
-        </span>
-        <span className="px-4 text-bright border-2 rounded-md border-bright p-2 hover:cursor-pointer hover:shadow-lg">
-          <Link href="signup">Sign Up</Link>
-        </span>
+        {token ? (
+          <span className="px-4 text-bright border-2 rounded-md border-bright p-2 hover:cursor-pointer hover:shadow-lg">
+            <button onClick={handleSignout}>Sign Out</button>
+          </span>
+        ) : (
+          <>
+            <span className="pr-3 text-primary hover:cursor-pointer hover:border-2 hover:rounded-md hover:px-5 hover:py-2 hover:border-primary hover:mr-2">
+              <Link href="/signin">Sign In</Link>
+            </span>
+            <span className="px-4 text-bright border-2 rounded-md border-bright p-2 hover:cursor-pointer hover:shadow-lg">
+              <Link href="signup">Sign Up</Link>
+            </span>
+          </>
+        )}
       </div>
     </div>
   );

@@ -3,25 +3,57 @@ import React from "react";
 import Image from "next/image";
 import girlEating from "../../../public/girlEating.png";
 import { useRef, useState } from "react";
+import { register } from "@/lib/features/authSlice";
 import { checkSignupValidation } from "@/utils/validate";
 import Link from "next/link";
+import { API_BASE_URL } from "@/utils/constants";
+import { useDispatch } from "react-redux";
+import { useRouter } from "next/navigation";
 
 const SignUp = () => {
+  const dispatch = useDispatch();
+  const router = useRouter();
   const email = useRef(null);
   const password = useRef(null);
   const fullName = useState(null);
   const contact = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
 
-  const handleSignUpSubmit = () => {
-    const validationCheckMsg = checkSignupValidation(
-      email.current?.value,
-      password.current?.value,
-      fullName.current?.value,
-      contact.current?.value
-    );
-    setErrorMsg(validationCheckMsg);
-    if (validationCheckMsg) return;
+  const handleSignUpSubmit = async () => {
+    const [firstName, lastName] = fullName.current.value.split(" ");
+    try {
+      const payload = {
+        email: email.current.value,
+        phoneNumber: contact.current.value,
+        firstName: firstName,
+        lastName: lastName,
+      };
+      const response = await fetch(`${API_BASE_URL}/user/signup`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      const json = await response.json();
+      if (json.success) {
+        dispatch(
+          register({
+            fullName: fullName.current.value,
+            email: email.current.value,
+            phoneNumber: contact.current.value,
+          })
+        );
+        router.push("/signin");
+      } else {
+        setErrorMsg(json.error.message);
+      }
+    } catch (error) {
+      setErrorMsg(error.message);
+    }
   };
 
   return (
@@ -73,13 +105,6 @@ const SignUp = () => {
             />
           </div>
           <div className="my-2">
-            <label className="text-sm">Paasword</label>
-            <input
-              ref={password}
-              type="text"
-              placeholder="Enter the password"
-              className="w-full my-1 py-2 px-2 font-medium"
-            />
             {errorMsg && (
               <em className="text-red-700 font-bold pt-1 text-sm">
                 {errorMsg}

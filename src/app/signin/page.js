@@ -1,5 +1,6 @@
 "use client";
 import React from "react";
+import { useDispatch } from "react-redux";
 import Image from "next/image";
 import Link from "next/link";
 import boyEating from "../../../public/boyEating.png";
@@ -9,22 +10,21 @@ import { API_BASE_URL } from "@/utils/constants";
 import { useRouter } from "next/navigation";
 
 const SignIn = () => {
+  const dispatch = useDispatch();
   const email = useRef(null);
   const password = useRef(null);
   const [errorMsg, setErrorMsg] = useState(null);
   const router = useRouter();
 
   const handleSignInSubmit = async () => {
-    const validationCheckMsg = checkSigninValidation(email.current?.value);
-    setErrorMsg(validationCheckMsg);
-    if (validationCheckMsg) return;
+    const emailValue = email.current.value;
+    const passwordValue = password.current.value;
 
     try {
       const payload = {
-        username: email.current?.value,
-        password: password.current?.value,
+        username: emailValue,
+        password: passwordValue,
       };
-
       const response = await fetch(`${API_BASE_URL}/login`, {
         method: "POST",
         headers: {
@@ -32,18 +32,25 @@ const SignIn = () => {
         },
         body: JSON.stringify(payload),
       });
-
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
-
       const json = await response.json();
-      console.log("JSON", json);
       if (json.success) {
+        document.cookie = `access_token=${json.data.access_token}; path=/`;
+        dispatch(
+          login({
+            user: emailValue,
+            password: passwordValue,
+            token: json.data.access_token,
+          })
+        );
         router.push("/");
+        return json;
+      } else {
+        setErrorMsg(json.error.message);
       }
     } catch (error) {
-      console.error("There was a problem with the fetch operation:", error);
       setErrorMsg(error.message);
     }
   };
