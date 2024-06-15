@@ -163,4 +163,4 @@ export const FOOD_ITEM_LIST = [
   },
 ];
 
-export const API_BASE_URL = "https://a2e5-157-38-224-29.ngrok-free.app";
+export const API_BASE_URL = "https://4104-157-38-224-29.ngrok-free.app";
