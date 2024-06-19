@@ -1,8 +1,8 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Card from "./Card";
 import food1 from "../../public/food1.jpg";
-import { FOOD_PRODUCT_LIST } from "@/utils/constants";
+import { API_BASE_URL, FOOD_PRODUCT_LIST } from "@/utils/constants";
 
 const ProductContainer = () => {
   const [currentIndex, setCurrentIndex] = useState(0);

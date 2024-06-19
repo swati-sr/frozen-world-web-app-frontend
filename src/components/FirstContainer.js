@@ -11,8 +11,8 @@ const FirstContainer = () => {
           & Unveil <br /> Frozen Delights 🍨
         </span>
         <p className="my-8 text-lg">
-          Taste the magic of frozen wonders today with our delicious frozen
-          treat.
+          Taste the magic of frozen wonders today with our special product
+          items.
         </p>
         <button className="bg-bright py-2 px-5 rounded-md text-white text-base">
           Know More
