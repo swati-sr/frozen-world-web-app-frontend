@@ -2,23 +2,25 @@ import Image from "next/image";
 import React from "react";
 import cake from "../../public/cake.jpg";
 
-const Items = ({ name, description, price, size, image }) => {
+const Items = ({ name, description, price, size }) => {
   return (
-    <div className="flex justify-between bg-white">
-      <div className="p-6">
-        <h3 className="text-black font-semibold text-2xl">{name}</h3>
-        <p className="my-6 w-10/12">{description}</p>
-        <div className="flex gap-10">
-          <span className="font-semibold text-lg">{price}</span>
-          <span className="text-bright font-semibold">{size}</span>
-        </div>
-      </div>
-      <div className="w-[140px] h-full">
+    <div className="flex flex-col bg-white rounded-lg overflow-hidden shadow-lg">
+      <div className="relative h-48">
         <Image
           src={cake}
           alt="item-image"
-          className="w-full h-full object-cover"
+          layout="fill"
+          objectFit="cover"
+          className="object-cover"
         />
+      </div>
+      <div className="p-4">
+        <h3 className="text-black font-semibold text-lg mb-1">{name}</h3>
+        <p className="text-sm text-gray-700 mb-2">{description}</p>
+        <div className="flex justify-between items-center">
+          <span className="text-lg font-semibold">{price}</span>
+          <span className="text-gray-600">{size}</span>
+        </div>
       </div>
     </div>
   );

@@ -4,30 +4,46 @@ import Cookies from "js-cookie";
 const authSlice = createSlice({
   name: "auth",
   initialState: {
-    fullName: null,
+    firstName: null,
+    lastName: null,
     phoneNumber: null,
     email: null,
+    image: null,
     token: Cookies.get("access_token") || null,
   },
   reducers: {
     register: (state, action) => {
-      const { fullName, phoneNumber, email } = action.payload;
-      state.fullName = fullName;
+      const { firstName, lastName, phoneNumber, email } = action.payload;
+      state.firstName = firstName;
+      state.lastName = lastName;
       state.phoneNumber = phoneNumber;
       state.email = email;
     },
     login: (state, action) => {
-      const { token } = action.payload;
+      const { token, firstName, lastName, phoneNumber, email, image } =
+        action.payload;
       state.token = token;
-      Cookies.set("access_token", token, { expires: 7, path: "/" });
+      state.firstName = firstName;
+      state.lastName = lastName;
+      state.phoneNumber = phoneNumber;
+      state.email = email;
+      state.image = image;
+      Cookies.set("access_token", token, { expires: 1, path: "/" });
     },
     logout: (state) => {
-      state.fullName = null;
+      state.firstName = null;
+      state.lastName = null;
       state.phoneNumber = null;
       state.email = null;
       state.token = null;
+      state.image = null;
       Cookies.remove("access_token", { path: "/" });
     },
+    // updateUser: (state, action) => {
+    //   const { fullName, image } = action.payload;
+    //   state.fullName = fullName;
+    //   state.image = image;
+    // },
   },
 });
 

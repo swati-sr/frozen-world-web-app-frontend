@@ -4,7 +4,6 @@ import Image from "next/image";
 import girlEating from "../../../public/girlEating.png";
 import { useRef, useState } from "react";
 import { register } from "@/lib/features/authSlice";
-import { checkSignupValidation } from "@/utils/validate";
 import Link from "next/link";
 import { API_BASE_URL } from "@/utils/constants";
 import { useDispatch } from "react-redux";
@@ -14,10 +13,11 @@ const SignUp = () => {
   const dispatch = useDispatch();
   const router = useRouter();
   const email = useRef(null);
-  const password = useRef(null);
   const fullName = useState(null);
   const contact = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
 
   const handleSignUpSubmit = async () => {
     const [firstName, lastName] = fullName.current.value.split(" ");
@@ -28,6 +28,8 @@ const SignUp = () => {
         firstName: firstName,
         lastName: lastName,
       };
+      setLoading(true);
+      setSuccess(false);
       const response = await fetch(`${API_BASE_URL}/user/signup`, {
         method: "POST",
         headers: {
@@ -47,8 +49,11 @@ const SignUp = () => {
             phoneNumber: contact.current.value,
           })
         );
+        setSuccess(true);
+        setLoading(false);
         router.push("/signin");
       } else {
+        setLoading(false);
         setErrorMsg(json.error.message);
       }
     } catch (error) {
@@ -77,6 +82,16 @@ const SignUp = () => {
           <h1 className="font-bold text-2xl py-3">
             Welcome Back to Frozen World.
           </h1>
+          {loading && (
+            <h3 className="text-md font-medium bg-blue-300 py-1 text-center shadow-lg shadow-gray-600">
+              Work in progress.. ⏱
+            </h3>
+          )}
+          {success && (
+            <h3 className="text-md font-medium bg-green-300 py-1 text-center shadow-lg shadow-gray-600">
+              & Done 😎
+            </h3>
+          )}
           <div className="my-2">
             <label className="text-sm">Full Name</label>
             <input

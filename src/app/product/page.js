@@ -28,7 +28,7 @@ const Page = () => {
           <span className="py-4 text-lg text-secondary font-medium">
             Grab your item at affordable prices 😋. Don't wait, give a call 🤙
           </span>
-          <div className="grid grid-cols-2 gap-8 mt-8">
+          <div className="grid grid-cols-4 gap-8 mt-8 mx-[7.5rem]">
             {data.map((item) => {
               return (
                 <Items
