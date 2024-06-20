@@ -19,18 +19,44 @@ const Page = () => {
   const [initial, setInitial] = useState(lastName || "");
   const [avatarImg, setAvatarImg] = useState(image || "");
   const [contact, setContact] = useState(phoneNumber || "");
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [errorMsg, setErrorMsg] = useState(false);
 
-  if (!tokenFromCookie || tokenFromCookie !== token) redirect("/signin");
+  if (!token || tokenFromCookie !== token) redirect("/signin");
 
   async function handlePhotoChange(e) {
-    const files = e.target.files;
-    const data = new FormData();
-    data.set("files", files);
-    if (files.length > 0) {
-      await fetch(`${API_BASE_URL}/user/upload`, {
+    try {
+      const file = e.target.files[0];
+      if (!file) {
+        throw new Error("No file selected");
+      }
+
+      const formData = new FormData();
+      formData.append("file", file);
+
+      const response = await fetch(`${API_BASE_URL}/user/upload`, {
         method: "POST",
-        body: data,
+        headers: {
+          Authorization: `Bearer ${tokenFromCookie}`,
+        },
+        body: formData,
       });
+
+      if (!response.ok) {
+        setErrorMsg("Network response was not ok");
+      }
+      const json = await response.json();
+      if (json.success) {
+        setAvatarImg(json.data.imageURL);
+        dispatch(
+          updateUser({
+            image: json.data.imageURL,
+          })
+        );
+      }
+    } catch (error) {
+      setErrorMsg(error);
     }
   }
 
@@ -43,19 +69,36 @@ const Page = () => {
         lastName: initial,
         imageURL: avatarImg,
       };
+      setLoading(true);
+      setSuccess(false);
       const response = await fetch(`${API_BASE_URL}/user/updateUser`, {
         method: "PATCH",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${tokenFromCookie}`,
+        },
         body: JSON.stringify(payload),
       });
 
       if (!response.ok) {
-        throw new Error("Network response was not ok");
+        setErrorMsg("Network response was not ok");
       }
       const json = await response.json();
-      console.log(json);
+      if (json.success) {
+        dispatch(
+          updateUser({
+            phoneNumber: contact,
+            firstName: name,
+            lastName: initial,
+            image: avatarImg,
+          })
+        );
+      }
+      setLoading(false);
+      setSuccess(true);
     } catch (error) {
-      console.error("Failed to update profile:", error);
+      setLoading(false);
+      setErrorMsg(error);
     }
   };
 
@@ -67,10 +110,25 @@ const Page = () => {
           Profile{" "}
         </h1>
         <div className="max-w-lg mx-auto bg-formOne p-6 rounded-lg shadow-lg">
+          {errorMsg && (
+            <h3 className="text-md font-medium bg-red-300 py-1 text-center shadow-lg shadow-gray-600">
+              errorMsg 🔴😟🔴
+            </h3>
+          )}
+          {loading && (
+            <h3 className="text-md font-medium bg-blue-300 py-1 text-center shadow-lg shadow-gray-600">
+              Work in progress.. ⏱
+            </h3>
+          )}
+          {success && (
+            <h3 className="text-md font-medium bg-green-300 py-1 text-center shadow-lg shadow-gray-600">
+              & Done 😎
+            </h3>
+          )}
           <div className="flex flex-col sm:flex-row gap-4 items-center">
             <div className="relative w-32 h-32 sm:w-48 sm:h-48 p-1 bg-gray-300 rounded-full shadow-md">
               <Image
-                src={userImage}
+                src={avatarImg ? avatarImg : userImage}
                 alt="user-avatar"
                 width={192}
                 height={192}
@@ -80,7 +138,7 @@ const Page = () => {
                 <input
                   type="file"
                   className="hidden"
-                  onChange={handlePhotoChange}
+                  onChange={(e) => handlePhotoChange(e)}
                 />
                 <span className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/2 bg-primary py-1 px-3 text-white text-sm font-semibold rounded-full shadow-lg hover:bg-bright">
                   Change

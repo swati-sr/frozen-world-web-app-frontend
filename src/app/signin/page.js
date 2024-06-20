@@ -44,6 +44,7 @@ const SignIn = () => {
       });
 
       if (!response.ok) {
+        setLoading(false);
         throw new Error("Network response was not ok");
       }
 
