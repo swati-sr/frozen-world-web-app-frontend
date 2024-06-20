@@ -1,6 +1,20 @@
 const { createSlice } = require("@reduxjs/toolkit");
 import Cookies from "js-cookie";
 
+// Helper function to update user state
+const updateUserState = (state, payload) => {
+  const { firstName, lastName, phoneNumber, email, image, token } = payload;
+  if (firstName !== undefined) state.firstName = firstName;
+  if (lastName !== undefined) state.lastName = lastName;
+  if (phoneNumber !== undefined) state.phoneNumber = phoneNumber;
+  if (email !== undefined) state.email = email;
+  if (image !== undefined) state.image = image;
+  if (token !== undefined) {
+    state.token = token;
+    Cookies.set("access_token", token, { expires: 1, path: "/" });
+  }
+};
+
 const authSlice = createSlice({
   name: "auth",
   initialState: {
@@ -13,22 +27,10 @@ const authSlice = createSlice({
   },
   reducers: {
     register: (state, action) => {
-      const { firstName, lastName, phoneNumber, email } = action.payload;
-      state.firstName = firstName;
-      state.lastName = lastName;
-      state.phoneNumber = phoneNumber;
-      state.email = email;
+      updateUserState(state, action.payload);
     },
     login: (state, action) => {
-      const { token, firstName, lastName, phoneNumber, email, image } =
-        action.payload;
-      state.token = token;
-      state.firstName = firstName;
-      state.lastName = lastName;
-      state.phoneNumber = phoneNumber;
-      state.email = email;
-      state.image = image;
-      Cookies.set("access_token", token, { expires: 1, path: "/" });
+      updateUserState(state, action.payload);
     },
     logout: (state) => {
       state.firstName = null;
@@ -39,13 +41,11 @@ const authSlice = createSlice({
       state.image = null;
       Cookies.remove("access_token", { path: "/" });
     },
-    // updateUser: (state, action) => {
-    //   const { fullName, image } = action.payload;
-    //   state.fullName = fullName;
-    //   state.image = image;
-    // },
+    updateUser: (state, action) => {
+      updateUserState(state, action.payload);
+    },
   },
 });
 
-export const { register, login, logout } = authSlice.actions;
+export const { register, login, logout, updateUser } = authSlice.actions;
 export default authSlice.reducer;

@@ -41,31 +41,50 @@ const Header = () => {
               Food Products
             </span>
           </div>
-          <span className="pr-4 hover:cursor-pointer hover:text-primary">
+          <Link
+            href="/wholesale"
+            className="pr-4 hover:cursor-pointer hover:text-primary"
+          >
             Wholesale
-          </span>
-          <span className="pr-4 hover:cursor-pointer hover:text-primary">
+          </Link>
+          <Link
+            href="/about"
+            className="pr-4 hover:cursor-pointer hover:text-primary"
+          >
             About
-          </span>
+          </Link>
         </div>
         <div className="pt-2 font-medium text-base">
-          {token ? (
+          {token && firstName ? (
             <>
-              <span className="pr-3 text-primary hover:cursor-pointer hover:border-2 hover:rounded-md hover:px-5 hover:py-2 hover:border-primary hover:mr-2">
-                <Link href="/profile">Hey! {firstName}</Link>
-              </span>
-              <span className="px-4 text-bright border-2 rounded-md border-bright p-2 hover:cursor-pointer hover:shadow-lg">
-                <button onClick={handleSignout}>Sign Out</button>
-              </span>
+              <Link
+                href="/profile"
+                className="pr-3 text-primary hover:cursor-pointer hover:border-2 hover:rounded-md hover:px-5 hover:py-2 hover:border-primary hover:mr-2"
+              >
+                {firstName}'s Profile
+              </Link>
+              <button
+                onClick={handleSignout}
+                className="px-4 text-bright border-2 rounded-md border-bright p-2 hover:cursor-pointer hover:shadow-lg"
+              >
+                {" "}
+                Sign Out
+              </button>
             </>
           ) : (
             <>
-              <span className="pr-3 text-primary hover:cursor-pointer hover:border-2 hover:rounded-md hover:px-5 hover:py-2 hover:border-primary hover:mr-2">
-                <Link href="/signin">Sign In</Link>
-              </span>
-              <span className="px-4 text-bright border-2 rounded-md border-bright p-2 hover:cursor-pointer hover:shadow-lg">
-                <Link href="signup">Sign Up</Link>
-              </span>
+              <Link
+                href="/signin"
+                className="pr-3 text-primary hover:cursor-pointer hover:border-2 hover:rounded-md hover:px-5 hover:py-2 hover:border-primary hover:mr-2"
+              >
+                Sign In
+              </Link>
+              <Link
+                href="signup"
+                className="px-4 text-bright border-2 rounded-md border-bright p-2 hover:cursor-pointer hover:shadow-lg"
+              >
+                Sign Up
+              </Link>
             </>
           )}
         </div>
