@@ -1,8 +1,7 @@
 "use client";
-import React from "react";
+import React, { createRef, useState } from "react";
 import Image from "next/image";
 import girlEating from "../../../public/girlEating.png";
-import { useRef, useState } from "react";
 import { register } from "@/lib/features/authSlice";
 import Link from "next/link";
 import { API_BASE_URL } from "@/utils/constants";
@@ -12,9 +11,9 @@ import { useRouter } from "next/navigation";
 const SignUp = () => {
   const dispatch = useDispatch();
   const router = useRouter();
-  const email = useRef(null);
-  const fullName = useState(null);
-  const contact = useState(null);
+  const email = createRef();
+  const fullName = createRef();
+  const contact = createRef();
   const [errorMsg, setErrorMsg] = useState(null);
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
