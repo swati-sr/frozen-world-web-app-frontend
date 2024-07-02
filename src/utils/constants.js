@@ -163,4 +163,4 @@ export const FOOD_ITEM_LIST = [
   },
 ];
 
-export const API_BASE_URL = "https://fbb7-157-38-232-255.ngrok-free.app";
+export const API_BASE_URL = "http://localhost:3000";

@@ -1,52 +1,81 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
+import axios from "axios";
 import Card from "./Card";
-import food1 from "../../public/food1.jpg";
-import { API_BASE_URL, FOOD_PRODUCT_LIST } from "@/utils/constants";
+import dummy from "../../public/dummyProduct.jpg";
+import { API_BASE_URL } from "@/utils/constants";
 
 const ProductContainer = () => {
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const [catList, setCatList] = useState([]);
+  const containerRef = useRef(null);
 
-  const prevSlide = () => {
-    setCurrentIndex((prevIndex) =>
-      prevIndex === 0
-        ? Math.ceil(FOOD_PRODUCT_LIST.length / 2) - 1
-        : prevIndex - 1
-    );
+  const fetchCat = async () => {
+    try {
+      const response = await axios.get(`${API_BASE_URL}/category/`, {
+        headers: {
+          "ngrok-skip-browser-warning": "69420",
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (response.data && response.data.data) {
+        setCatList(response.data.data);
+      } else {
+        throw new Error("Invalid response data");
+      }
+    } catch (error) {
+      console.error("Error fetching categories:", error);
+    }
   };
 
-  const nextSlide = () => {
-    setCurrentIndex((prevIndex) =>
-      prevIndex === Math.ceil(FOOD_PRODUCT_LIST.length / 2) - 1
-        ? 0
-        : prevIndex + 1
-    );
+  useEffect(() => {
+    fetchCat();
+  }, []);
+
+  const scrollLeft = () => {
+    containerRef.current.scrollBy({
+      left: -containerRef.current.offsetWidth,
+      behavior: "smooth",
+    });
+  };
+
+  const scrollRight = () => {
+    containerRef.current.scrollBy({
+      left: containerRef.current.offsetWidth,
+      behavior: "smooth",
+    });
   };
 
   return (
-    <div className="relative w-full overflow-hidden bg-white p-6 h-[25%] py-24">
-      <div
-        className="flex transition-transform ease-in-out duration-500 px-12"
-        style={{ transform: `translateX(-${currentIndex * 50}%)` }}
-      >
-        {FOOD_PRODUCT_LIST.map((item) => (
-          <div key={item.id} className="w-[53%] flex-shrink-0">
-            <Card productImage={food1} heading={item.name} id={item.id} />
-          </div>
-        ))}
+    <div className="relative w-full bg-white p-6 py-24">
+      <div className="flex justify-between items-center">
+        <button
+          onClick={scrollLeft}
+          className="border border-primary text-secondary py-3 px-2 rounded-sm"
+        >
+          &#10094;
+        </button>
+        <div
+          className="flex overflow-x-scroll scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200 "
+          ref={containerRef}
+        >
+          {catList.map((item) => (
+            <div key={item.id} className="flex-shrink-0 w-[100%] sm:w-[50%]">
+              <Card
+                productImage={item.imageURL ? item.imageURL : dummy}
+                heading={item.name}
+                id={item.id}
+              />
+            </div>
+          ))}
+        </div>
+        <button
+          onClick={scrollRight}
+          className="bg-bright text-white py-3 px-2 rounded-sm"
+        >
+          &#10095;
+        </button>
       </div>
-      <button
-        className="absolute top-1/2 left-0 transform -translate-y-1/2 border border-primary text-secondary ml-6 py-3 px-2 file:ml-6 rounded-sm"
-        onClick={prevSlide}
-      >
-        &#10094;
-      </button>
-      <button
-        className="absolute top-1/2 right-0 transform -translate-y-1/2 bg-bright text-white py-3 px-2 mr-28 rounded-sm"
-        onClick={nextSlide}
-      >
-        &#10095;
-      </button>
     </div>
   );
 };
