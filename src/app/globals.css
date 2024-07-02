@@ -13,3 +13,28 @@
 .spin-slow {
   animation: spin-slow 7s linear infinite;
 }
+
+div.tabs > * {
+  @apply bg-formOne py-1 px-6 rounded-md text-secondary font-medium hover:text-primary;
+}
+
+div.tabs > *.active {
+  @apply bg-bright text-white;
+}
+
+::-webkit-scrollbar {
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}

@@ -22,7 +22,6 @@ const SignIn = () => {
     const emailValue = emailRef.current.value;
     const passwordValue = passwordRef.current.value;
 
-    // Basic validation
     if (!emailValue || !passwordValue) {
       setErrorMsg("Email and password are required.");
       return;
@@ -50,11 +49,18 @@ const SignIn = () => {
 
       const json = await response.json();
       if (json.success) {
-        const { email, firstName, lastName, phoneNumber, imageURL } =
-          json.data.user;
+        const {
+          email,
+          firstName,
+          lastName,
+          phoneNumber,
+          imageURL,
+          accessGrade,
+        } = json.data.user;
         document.cookie = `access_token=${json.data.access_token}; path=/`;
         dispatch(
           login({
+            grade: accessGrade,
             email,
             phoneNumber,
             firstName,
@@ -84,7 +90,14 @@ const SignIn = () => {
         Home
       </Link>
       <div className="flex justify-evenly mt-36 py-4 align-middle">
-        <Image src={boyEating} alt="boy-eating-food" />
+        <Image
+          src={boyEating}
+          alt="boy-eating-food"
+          loading="eager"
+          priority={true}
+          width="0"
+          height="0"
+        />
         <form
           className="p-6 bg-formOne rounded-md flex-col items-center"
           onSubmit={handleSignInSubmit}
@@ -117,6 +130,7 @@ const SignIn = () => {
               ref={passwordRef}
               type="password"
               placeholder="Enter the password"
+              autoComplete="on"
               className="w-full my-1 py-2 px-2 font-medium"
             />
             {errorMsg && (

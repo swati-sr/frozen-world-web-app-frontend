@@ -25,7 +25,12 @@ const Header = () => {
         <Discount offerBy={"Flat 50%"} offerAmount={"5000"} />
       </div>
       <div className="m-3 py-6 px-1 flex justify-around ">
-        <h2 className="text-primary font-bold text-3xl">{WEB_APP_NAME}</h2>
+        <Link
+          href="/"
+          className="text-primary font-bold text-3xl hover:text-bright"
+        >
+          {WEB_APP_NAME}
+        </Link>
         <div className="flex text-secondary font-medium text-base pt-2">
           <Link
             className="pr-4 hover:cursor-pointer hover:text-primary"
