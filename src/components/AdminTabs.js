@@ -18,12 +18,6 @@ const AdminTabs = ({ isAdmin }) => {
           >
             Categories
           </Link>
-          <Link
-            className={path === "/product/items" ? "active" : ""}
-            href={"/product/items"}
-          >
-            Items
-          </Link>
           <Link className={path === "/users" ? "active" : ""} href="/users">
             Users
           </Link>

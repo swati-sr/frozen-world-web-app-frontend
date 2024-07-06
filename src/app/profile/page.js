@@ -9,6 +9,7 @@ import { updateUser } from "@/lib/features/authSlice";
 import { API_BASE_URL } from "@/utils/constants";
 import AdminTabs from "@/components/AdminTabs";
 import ImageBox from "@/components/ImageBox";
+import { Sidebar } from "@/components/Sidebar";
 
 const Page = () => {
   const tokenFromCookie = Cookies.get("access_token");
@@ -97,32 +98,13 @@ const Page = () => {
 
   return (
     <>
-      <Header />
-      <section className="mt-8 mb-4 px-4 sm:px-6 lg:px-8">
-        {isAdmin ? (
-          <AdminTabs isAdmin={isAdmin} />
-        ) : (
-          <h1 className="text-center text-primary text-4xl mb-6 font-bold">
+      <div className="flex">
+        <Sidebar isAdmin={isAdmin} />
+        <div className="grow">
+          <h2 className="text-primary text-2xl font-bold text-center py-6 w-full shadow-xl">
             Profile
-          </h1>
-        )}
-        <div className="max-w-lg mx-auto bg-formOne p-6 rounded-lg shadow-lg">
-          {errorMsg && (
-            <h3 className="text-md font-medium mb-2 bg-red-300 py-1 text-center shadow-lg">
-              {errorMsg} 🔴😟🔴
-            </h3>
-          )}
-          {loading && (
-            <h3 className="text-md font-medium mb-2 bg-blue-300 py-1 text-center shadow-lg">
-              Work in progress.. ⏱
-            </h3>
-          )}
-          {success && (
-            <h3 className="text-md font-medium mb-2 bg-green-300 py-1 text-center shadow-lg">
-              & Done 😎
-            </h3>
-          )}
-          <div className="flex flex-col sm:flex-row gap-4">
+          </h2>
+          <div className="flex m-8 p-5 rounded-md gap-10">
             <ImageBox
               link={avatarImg ? avatarImg : userImage}
               apiUrl={"user/upload"}
@@ -130,23 +112,25 @@ const Page = () => {
               setLink={setAvatarImg}
             />
             <form
-              className="flex-grow flex flex-col w-full"
+              className="flex-grow flex flex-col w-full bg-formOne p-5 rounded-md"
               onSubmit={(e) => e.preventDefault()}
             >
-              <input
-                type="text"
-                placeholder="First Name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                className="w-full my-2 py-2 px-4 font-medium rounded-md shadow-md focus:ring-2 focus:ring-bright focus:border-formTwo"
-              />
-              <input
-                type="text"
-                placeholder="Last Name"
-                value={initial}
-                onChange={(e) => setInitial(e.target.value)}
-                className="w-full my-2 py-2 px-4 font-medium rounded-md shadow-md focus:ring-2 focus:ring-bright focus:border-formTwo"
-              />
+              <div className="flex gap-3">
+                <input
+                  type="text"
+                  placeholder="First Name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  className="w-full my-2 py-2 px-4 font-medium rounded-md shadow-md focus:ring-2 focus:ring-bright focus:border-formTwo"
+                />
+                <input
+                  type="text"
+                  placeholder="Last Name"
+                  value={initial}
+                  onChange={(e) => setInitial(e.target.value)}
+                  className="w-full my-2 py-2 px-4 font-medium rounded-md shadow-md focus:ring-2 focus:ring-bright focus:border-formTwo"
+                />
+              </div>
               <input
                 type="tel"
                 placeholder="Contact number"
@@ -201,7 +185,7 @@ const Page = () => {
             </form>
           </div>
         </div>
-      </section>
+      </div>
     </>
   );
 };
