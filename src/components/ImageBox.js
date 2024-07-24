@@ -41,8 +41,8 @@ const ImageBox = ({ apiUrl, link, setLink, title }) => {
   }
 
   return (
-    <div className="flex flex-col items-center">
-      <div className="relative w-32 h-32 bg-gray-300 rounded-full overflow-hidden mb-3">
+    <div className="flex flex-col items-center p-1">
+      <div className="relative w-44 h-44 rounded-full overflow-hidden mb-4">
         {link && (
           <Image
             src={link}
@@ -56,11 +56,11 @@ const ImageBox = ({ apiUrl, link, setLink, title }) => {
       <label className="cursor-pointer">
         <input
           type="file"
-          className="hidden"
+          className="hidden "
           onChange={handlePhotoChange}
           accept="image/*"
         />
-        <span className="font-bold text-bright text-base border border-bright px-2 py-1 rounded-md">
+        <span className="font-bold text-primary text-base border border-primary px-2 py-1 rounded-md hover:bg-bright hover:text-white hover:border-none">
           {title}
         </span>
       </label>

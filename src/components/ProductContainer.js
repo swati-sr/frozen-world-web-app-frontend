@@ -60,7 +60,10 @@ const ProductContainer = () => {
           ref={containerRef}
         >
           {catList.map((item) => (
-            <div key={item.id} className="flex-shrink-0 w-[100%] sm:w-[50%]">
+            <div
+              key={item.id}
+              className="flex flex-shrink-0 w-[100%] sm:w-[50%] justify-center items-center"
+            >
               <Card
                 productImage={item.imageURL ? item.imageURL : dummy}
                 heading={item.name}
