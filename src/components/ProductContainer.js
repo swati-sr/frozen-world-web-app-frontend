@@ -48,6 +48,9 @@ const ProductContainer = () => {
 
   return (
     <div className="relative w-full bg-white p-6 py-24">
+      <div className="flex items-center justify-center text-4xl font-medium pb-5">
+        <h2 className="text-primary">Shop By Category</h2>
+      </div>
       <div className="flex justify-between items-center">
         <button
           onClick={scrollLeft}

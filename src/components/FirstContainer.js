@@ -4,7 +4,7 @@ import pizza from "../../public/pizza.png";
 
 const FirstContainer = () => {
   return (
-    <div className="flex my-10 pl-[7.5rem] h-screen w-fit">
+    <div className="flex mt-10 pl-[7.5rem] h-screen w-fit">
       <div className="mt-20">
         <h1 className="font-bold text-5xl">Chill Your World</h1>{" "}
         <span className="font-bold text-5xl">

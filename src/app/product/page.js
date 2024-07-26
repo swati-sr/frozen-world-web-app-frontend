@@ -51,7 +51,7 @@ const Page = () => {
             Our Regular Odds
           </h1>
           <p className="text-lg text-gray-600">
-            Grab your item at affordable prices 😋. Don't wait, give a call 🤙
+            Grab your item at affordable prices. Don't wait, give a call.
           </p>
         </div>
         {productList.length > 0 ? (
