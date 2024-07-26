@@ -56,6 +56,10 @@ const SignIn = () => {
           phoneNumber,
           imageURL,
           accessGrade,
+          city,
+          address,
+          state,
+          pincode,
         } = json.data.user;
         document.cookie = `access_token=${json.data.access_token}; path=/`;
         dispatch(
@@ -65,6 +69,10 @@ const SignIn = () => {
             phoneNumber,
             firstName,
             lastName,
+            city,
+            address,
+            stateLocation: state,
+            pincode,
             image: imageURL,
             token: json.data.access_token,
           })

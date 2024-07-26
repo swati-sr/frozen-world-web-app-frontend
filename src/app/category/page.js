@@ -151,6 +151,9 @@ const Page = () => {
                   setEditCategory(null);
                   setDeleteCategory(null);
                   setOptionalBtn(!optionalBtn);
+                  setImageId(null);
+                  setImageLink(null);
+                  setImageName(null);
                 }}
               >
                 Or Add Category
@@ -158,12 +161,14 @@ const Page = () => {
             )}
             <form
               className="mt-8"
-              onSubmit={() => {
-                editCategory
-                  ? handleCategoryUpdate
-                  : deleteCategory
-                  ? handleDeleteCategory
-                  : handleNewCategorySubmit;
+              onSubmit={(e) => {
+                if (editCategory) {
+                  handleCategoryUpdate(e);
+                } else if (deleteCategory) {
+                  handleDeleteCategory(e);
+                } else {
+                  handleNewCategorySubmit(e);
+                }
               }}
             >
               <div className="flex gap-2 items-end">

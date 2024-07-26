@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Image from "next/image";
 import Cookies from "js-cookie";
 import { API_BASE_URL } from "../utils/constants";
+import uploadIcon from "../../public/uploadIcon.png";
 
 const ImageBox = ({ apiUrl, link, setLink, title }) => {
   const tokenFromCookie = Cookies.get("access_token");
@@ -42,10 +43,10 @@ const ImageBox = ({ apiUrl, link, setLink, title }) => {
 
   return (
     <div className="flex flex-col items-center p-1">
-      <div className="relative w-44 h-44 rounded-full overflow-hidden mb-4">
+      <div className="relative w-44 h-44 rounded-full overflow-hidden mb-4 bg-gray-100">
         {link && (
           <Image
-            src={link}
+            src={link ? link : uploadIcon}
             alt="Uploaded"
             layout="fill"
             objectFit="cover"

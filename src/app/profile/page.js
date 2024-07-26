@@ -58,6 +58,10 @@ const Page = () => {
         firstName: name,
         lastName: initial,
         imageURL: avatarImg,
+        address: currentAddress,
+        city: currentCity,
+        state: currentState,
+        pincode: postalCode,
       };
       setLoading(true);
       setSuccess(false);
