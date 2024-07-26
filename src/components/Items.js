@@ -1,6 +1,5 @@
 import Image from "next/image";
 import React from "react";
-import cartIcon from "@/utils/icons/cartIcon";
 import { FaCartShopping } from "react-icons/fa6";
 
 const Items = ({ name, description, price, size, image }) => {
