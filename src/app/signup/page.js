@@ -1,12 +1,12 @@
 "use client";
 import React, { createRef, useState } from "react";
+import { useDispatch } from "react-redux";
 import Image from "next/image";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import girlEating from "../../../public/girlEating.png";
 import { register } from "@/lib/features/authSlice";
-import Link from "next/link";
 import { API_BASE_URL } from "@/utils/constants";
-import { useDispatch } from "react-redux";
-import { useRouter } from "next/navigation";
 
 const SignUp = () => {
   const dispatch = useDispatch();
@@ -18,7 +18,8 @@ const SignUp = () => {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
 
-  const handleSignUpSubmit = async () => {
+  const handleSignUpSubmit = async (e) => {
+    e.preventDefault();
     const [firstName, lastName] = fullName.current.value.split(" ");
     try {
       const payload = {
@@ -61,29 +62,33 @@ const SignUp = () => {
   };
 
   return (
-    <div>
+    <div className="min-h-screen flex flex-col items-center justify-center bg-bright p-6">
       <Link
         href="/"
-        className="absolute ml-[174px] top-[109px] bg-bright py-1 px-2 text-white rounded-md"
+        className="absolute top-5 left-5 bg-white py-2 px-4 text-bright font-semibold border border-bright rounded-md shadow-md hover:bg-primary hover:text-white"
       >
         Home
       </Link>
-      <div className="flex justify-evenly mt-[7rem]">
-        <Image
-          src={girlEating}
-          alt="boy-eating-food"
-          className="w-[23rem] h-[23rem] mt-10"
-        />
+      <div className="flex flex-col md:flex-row items-center justify-center w-full max-w-4xl p-6 bg-white shadow-lg">
+        <div className="mb-8 md:mb-0 md:mr-8 flex-shrink-0">
+          <Image
+            src={girlEating}
+            alt="girl-eating-food"
+            className="w-[18rem] h-[18rem] md:w-[23rem] md:h-[23rem]"
+            loading="eager"
+            priority={true}
+          />
+        </div>
         <form
-          className="p-4 bg-formTwo rounded-md flex-col items-center"
-          onSubmit={(e) => e.preventDefault()}
+          className="p-6 bg-gray-100 flex flex-col items-center w-full md:w-1/2"
+          onSubmit={handleSignUpSubmit}
         >
-          <h1 className="font-bold text-2xl py-3">
-            Welcome Back to Frozen World.
+          <h1 className="font-bold text-2xl py-3 text-gray-800">
+            Create Your Account
           </h1>
           {loading && (
             <h3 className="text-md font-medium bg-blue-300 py-1 text-center shadow-lg shadow-gray-600">
-              Work in progress.. ⏱
+              Work in progress... ⏱
             </h3>
           )}
           {success && (
@@ -91,50 +96,50 @@ const SignUp = () => {
               & Done 😎
             </h3>
           )}
-          <div className="my-2">
-            <label className="text-sm">Full Name</label>
+          <div className="my-2 w-full">
+            <label className="text-sm text-gray-700">Full Name</label>
             <input
               ref={fullName}
               type="text"
-              placeholder="Enter the full name"
-              className="w-full my-1 py-2 px-2 font-medium"
+              placeholder="Enter your full name"
+              className="w-full my-1 py-2 px-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-bright"
             />
           </div>
-          <div className="my-2">
-            <label className="text-sm">Contact</label>
+          <div className="my-2 w-full">
+            <label className="text-sm text-gray-700">Contact</label>
             <input
               ref={contact}
               type="tel"
-              placeholder="Enter the contact number"
-              className="w-full my-1 py-2 px-2 font-medium"
+              placeholder="Enter your contact number"
+              className="w-full my-1 py-2 px-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-bright"
             />
           </div>
-          <div className="my-2">
-            <label className="text-sm">Email Address</label>
+          <div className="my-2 w-full">
+            <label className="text-sm text-gray-700">Email Address</label>
             <input
               ref={email}
               type="email"
-              placeholder="Enter the e-mail address"
-              className="w-full my-1 py-2 px-2 font-medium"
+              placeholder="Enter your email address"
+              className="w-full my-1 py-2 px-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-bright"
             />
           </div>
-          <div className="my-2">
-            {errorMsg && (
-              <em className="text-red-700 font-bold pt-1 text-sm">
-                {errorMsg}
-              </em>
-            )}
-          </div>
+          {errorMsg && (
+            <div className="my-2 text-red-700 font-bold text-sm">
+              {errorMsg}
+            </div>
+          )}
           <button
-            className="bg-bright text-white py-1 px-6 rounded-md mt-1"
-            onClick={handleSignUpSubmit}
+            type="submit"
+            className="bg-bright text-white py-2 px-6 rounded-md mt-4 w-full shadow-md hover:bg-bright-dark transition duration-300 hover:bg-black"
           >
-            Submit
+            Sign Up
           </button>
-          <div className="flex gap-4 mt-2">
-            <h3 className="font-medium">Already a User?</h3>
-            <span className="text-white font-medium">
-              <Link href="/signin">SignIn</Link>
+          <div className="flex gap-2 mt-4 justify-center">
+            <h3 className="font-medium text-gray-700">
+              Already have an account?
+            </h3>
+            <span className="text-bright font-medium hover:text-primary">
+              <Link href="/signin">Sign In</Link>
             </span>
           </div>
         </form>

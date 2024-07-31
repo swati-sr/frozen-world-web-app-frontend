@@ -1,9 +1,8 @@
 "use client";
 import { logout } from "@/lib/features/authSlice";
-import { toggleDarkMode } from "@/lib/features/darkModeSlice";
 import { WEB_APP_NAME } from "@/utils/constants";
 import Link from "next/link";
-import React, { useState, Suspense } from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Discount from "./Discount";
 import { useRouter } from "next/navigation";
@@ -18,16 +17,20 @@ import {
   FaUser,
   MdDarkMode,
 } from "../utils/icon";
+import { toggleDarkMode } from "@/lib/features/darkModeSlice";
 
 const Header = () => {
   const { token, firstName } = useSelector((state) => state.auth);
-  const { darkMode } = useSelector((state) => state.darkMode);
   const dispatch = useDispatch();
   const router = useRouter();
-  const [showFoodItem, setShowFoodItem] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const handleFoodProduct = () => {
-    setShowFoodItem(!showFoodItem);
+    router.push("/product");
+  };
+
+  const handleTheme = () => {
+    dispatch(toggleDarkMode());
   };
 
   const handleSignout = () => {
@@ -35,125 +38,75 @@ const Header = () => {
     router.push("/");
   };
 
-  const toggleDarkModeHandler = () => {
-    dispatch(toggleDarkMode());
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
   };
 
   return (
     <>
-      <head>
-        <title>{WEB_APP_NAME}</title>
-        <meta
-          name="description"
-          content={`${WEB_APP_NAME} - Your go-to app for amazing deals and products`}
-        />
-        <meta
-          name="keywords"
-          content="e-commerce, products, deals, wholesale, about us, help"
-        />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.ico" />
-      </head>
       <div className="bg-primary text-white py-2 transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300">
         <Discount offerBy={"Flat 50%"} offerAmount={"5000"} />
       </div>
-      <header
-        className={`py-4 px-16 flex justify-between items-center shadow-md sticky top-0 z-10 ${
-          darkMode ? "bg-gray-900" : "bg-white"
-        } ${darkMode ? "text-white" : "text-black"}`}
-      >
-        <Link
-          href="/"
-          className={`text-primary font-bold text-2xl ${
-            darkMode ? "text-white" : "text-black"
-          }`}
-        >
+      <div className="py-4 px-4 md:px-16 flex justify-between items-center shadow-md sticky top-0 bg-white z-10">
+        <Link href="/" className="text-primary font-bold text-2xl">
           {WEB_APP_NAME}
         </Link>
-        <nav
-          className="flex text-secondary font-medium text-lg"
-          aria-label="Primary"
-        >
+        <div className="hidden md:flex text-secondary font-medium text-lg">
           <div className="relative">
             <span
               className="px-4 hover:cursor-pointer hover:text-bright flex items-center"
               onClick={handleFoodProduct}
             >
-              <Suspense fallback={<div>Loading...</div>}>
-                <AiFillProduct className="mr-2" />
-              </Suspense>
+              <AiFillProduct className="mr-2" />
               Products
             </span>
           </div>
           <Link
             href="/wholesale"
             className="px-4 hover:cursor-pointer hover:text-bright flex items-center"
-            aria-label="Wholesale"
           >
-            <Suspense fallback={<div>Loading...</div>}>
-              <FaBoxOpen className="mr-2" />
-            </Suspense>
+            <FaBoxOpen className="mr-2" />
             Wholesale
           </Link>
           <Link
             className="px-4 hover:cursor-pointer hover:text-bright flex items-center"
-            href="/"
-            aria-label="Help"
+            href="/help"
           >
-            <Suspense fallback={<div>Loading...</div>}>
-              <GrFireball className="mr-2" />
-            </Suspense>
+            <GrFireball className="mr-2" />
             Help
           </Link>
           <Link
             href="/about"
             className="px-4 hover:cursor-pointer hover:text-bright flex items-center"
-            aria-label="About"
           >
-            <Suspense fallback={<div>Loading...</div>}>
-              <IoPeopleCircle className="mr-2" />
-            </Suspense>
+            <IoPeopleCircle className="mr-2" />
             About
           </Link>
-        </nav>
-        <div className="flex items-center">
-          <Suspense fallback={<div>Loading...</div>}>
-            <MdDarkMode
-              className="mr-4 text-lg hover:cursor-pointer hover:text-bright"
-              onClick={toggleDarkModeHandler}
-            />
-          </Suspense>
+        </div>
+        <div className="hidden md:flex items-center">
+          <MdDarkMode
+            className="mr-4 text-lg hover:cursor-pointer hover:text-bright"
+            onClick={handleTheme}
+          />
           {token && firstName ? (
             <>
               <Link
                 href="/profile"
                 className="px-4 text-primary hover:text-bright hover:cursor-pointer hover:border-2 hover:rounded-md hover:px-5 hover:py-2 hover:border-bright hover:mr-2 flex items-center"
-                aria-label="Profile"
               >
-                <Suspense fallback={<div>Loading...</div>}>
-                  <RiUserSmileFill className="mr-2" />
-                </Suspense>
-                {firstName}
+                <RiUserSmileFill className="mr-2" /> {firstName}
               </Link>
               <Link
                 href="/profile"
                 className="px-4 text-primary hover:text-bright hover:cursor-pointer hover:border-2 hover:rounded-md hover:px-5 hover:py-2 hover:border-bright hover:mr-2 flex items-center"
-                aria-label="Cart"
               >
-                <Suspense fallback={<div>Loading...</div>}>
-                  <IoMdCart className="mr-2" />
-                </Suspense>
-                Cart
+                <IoMdCart className="mr-2" /> Cart
               </Link>
               <button
                 onClick={handleSignout}
-                className="px-4 text-white bg-primary border-2 rounded-md border-primary p-2 hover:cursor-pointer hover:shadow-lg flex items-center"
-                aria-label="Sign Out"
+                className="px-4 text-white bg-primary border-2 rounded-md border-primary p-2 hover:cursor-pointer hover:shadow-lg flex items-center hover:bg-bright hover:border-bright"
               >
-                <Suspense fallback={<div>Loading...</div>}>
-                  <FaUser className="mr-2" />
-                </Suspense>
-                Sign Out
+                <FaUser className="mr-2" /> Sign Out
               </button>
             </>
           ) : (
@@ -161,29 +114,126 @@ const Header = () => {
               <Link
                 href="/signin"
                 className="px-4 text-primary hover:text-bright hover:cursor-pointer hover:border-2 hover:rounded-md hover:px-5 hover:py-2 hover:border-bright hover:mr-2 flex items-center"
-                aria-label="Sign In"
               >
-                <Suspense fallback={<div>Loading...</div>}>
-                  <FaUser className="mr-2" />
-                </Suspense>
-                Sign In
+                <FaUser className="mr-2" /> Sign In
               </Link>
               <Link
                 href="/signup"
                 className="px-4 text-white hover:bg-bright bg-primary border-2 rounded-md border-primary hover:border-bright p-2 hover:cursor-pointer hover:shadow-lg flex items-center"
-                aria-label="Sign Up"
               >
-                <Suspense fallback={<div>Loading...</div>}>
-                  <MdOutlineFollowTheSigns className="mr-2" />
-                </Suspense>
-                Sign Up
+                <MdOutlineFollowTheSigns className="mr-2" /> Sign Up
               </Link>
             </>
           )}
         </div>
-      </header>
+        <div className="md:hidden flex items-center">
+          <MdDarkMode
+            className="mr-4 text-lg hover:cursor-pointer hover:text-bright"
+            onClick={handleTheme}
+          />
+          <button
+            onClick={toggleMenu}
+            className="text-primary hover:text-bright"
+          >
+            <svg
+              className="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M4 6h16M4 12h16M4 18h16"
+              ></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+      {isMenuOpen && (
+        <div className="md:hidden flex flex-col items-start bg-white px-4 py-2 shadow-md">
+          <Link
+            href="/product"
+            className="px-4 py-2 text-secondary font-medium text-lg hover:text-bright flex items-center w-full"
+            onClick={toggleMenu}
+          >
+            <AiFillProduct className="mr-2" />
+            Products
+          </Link>
+          <Link
+            href="/wholesale"
+            className="px-4 py-2 text-secondary font-medium text-lg hover:text-bright flex items-center w-full"
+            onClick={toggleMenu}
+          >
+            <FaBoxOpen className="mr-2" />
+            Wholesale
+          </Link>
+          <Link
+            href="/help"
+            className="px-4 py-2 text-secondary font-medium text-lg hover:text-bright flex items-center w-full"
+            onClick={toggleMenu}
+          >
+            <GrFireball className="mr-2" />
+            Help
+          </Link>
+          <Link
+            href="/about"
+            className="px-4 py-2 text-secondary font-medium text-lg hover:text-bright flex items-center w-full"
+            onClick={toggleMenu}
+          >
+            <IoPeopleCircle className="mr-2" />
+            About
+          </Link>
+          {token && firstName ? (
+            <>
+              <Link
+                href="/profile"
+                className="px-4 py-2 text-primary hover:text-bright hover:cursor-pointer hover:border-2 hover:rounded-md hover:px-5 hover:py-2 hover:border-bright flex items-center w-full"
+                onClick={toggleMenu}
+              >
+                <RiUserSmileFill className="mr-2" /> {firstName}
+              </Link>
+              <Link
+                href="/profile"
+                className="px-4 py-2 text-primary hover:text-bright hover:cursor-pointer hover:border-2 hover:rounded-md hover:px-5 hover:py-2 hover:border-bright flex items-center w-full"
+                onClick={toggleMenu}
+              >
+                <IoMdCart className="mr-2" /> Cart
+              </Link>
+              <button
+                onClick={() => {
+                  handleSignout();
+                  toggleMenu();
+                }}
+                className="px-4 py-2 text-white bg-primary border-2 rounded-md border-primary flex items-center w-full hover:cursor-pointer hover:shadow-lg hover:bg-bright hover:border-bright"
+              >
+                <FaUser className="mr-2" /> Sign Out
+              </button>
+            </>
+          ) : (
+            <>
+              <Link
+                href="/signin"
+                className="px-4 py-2 text-primary hover:text-bright hover:cursor-pointer hover:border-2 hover:rounded-md hover:px-5 hover:py-2 hover:border-bright flex items-center w-full"
+                onClick={toggleMenu}
+              >
+                <FaUser className="mr-2" /> Sign In
+              </Link>
+              <Link
+                href="/signup"
+                className="px-4 py-2 text-white hover:bg-bright bg-primary border-2 rounded-md border-primary hover:border-bright flex items-center w-full hover:cursor-pointer hover:shadow-lg"
+                onClick={toggleMenu}
+              >
+                <MdOutlineFollowTheSigns className="mr-2" /> Sign Up
+              </Link>
+            </>
+          )}
+        </div>
+      )}
     </>
   );
 };
 
-export default React.memo(Header);
+export default Header;

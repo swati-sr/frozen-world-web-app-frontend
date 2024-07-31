@@ -6,14 +6,16 @@ import Footer from "./Footer";
 import Brand from "./Brand";
 import { AdvertisingOne } from "./Advertising";
 
-const MainContainer = () => {
+const MainContainer = ({ isDarkMode }) => {
   return (
     <>
       <Header />
-      <AdvertisingOne />
-      {/* <FirstContainer /> */}
-      <ProductContainer />
-      <Brand />
+      <div className="px-32">
+        <FirstContainer />
+        <AdvertisingOne />
+        <ProductContainer />
+        <Brand />
+      </div>
       <Footer />
     </>
   );

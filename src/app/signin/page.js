@@ -90,56 +90,59 @@ const SignIn = () => {
   };
 
   return (
-    <div>
+    <div className="min-h-screen flex flex-col items-center justify-center bg-bright p-6">
       <Link
         href="/"
-        className="absolute ml-[174px] top-[109px] bg-bright py-1 px-2 text-white rounded-md"
+        className="absolute shadow-md top-5 left-5 bg-white py-2 px-4 text-bright font-semibold border border-bright rounded-md hover:bg-primary hover:text-white"
       >
         Home
       </Link>
-      <div className="flex justify-evenly mt-36 py-4 align-middle">
-        <Image
-          src={boyEating}
-          alt="boy-eating-food"
-          loading="eager"
-          priority={true}
-          width="0"
-          height="0"
-        />
+      <div className="flex flex-col md:flex-row items-center justify-center w-full max-w-4xl p-6 bg-white  shadow-lg">
+        <div className="mb-8 md:mb-0 md:mr-8">
+          <Image
+            className=""
+            src={boyEating}
+            alt="boy-eating-food"
+            loading="eager"
+            priority={true}
+            width={400}
+            height={400}
+          />
+        </div>
         <form
-          className="p-6 bg-formOne rounded-md flex-col items-center"
+          className="p-6 bg-gray-100 flex flex-col items-center w-full md:w-1/2"
           onSubmit={handleSignInSubmit}
         >
-          <h1 className="font-bold text-2xl py-3">
-            Welcome Back to Frozen World.
+          <h1 className="font-bold text-2xl py-3 text-gray-800">
+            Welcome Back to Frozen World
           </h1>
           {loading && (
-            <h3 className="text-md font-medium bg-blue-300 py-1 text-center shadow-lg shadow-gray-600">
-              Work in progress.. ⏱
+            <h3 className="text-md font-medium bg-blue-300 py-1 text-center shadow-lg shadow-gray-600 w-full">
+              Work in progress... ⏱
             </h3>
           )}
           {success && (
-            <h3 className="text-md font-medium bg-green-300 py-1 text-center shadow-lg shadow-gray-600">
+            <h3 className="text-md font-medium bg-green-300 py-1 text-center shadow-lg shadow-gray-600 w-full">
               & Done 😎
             </h3>
           )}
-          <div className="my-2">
-            <label className="text-sm">Email Address</label>
+          <div className="my-2 w-full">
+            <label className="text-sm text-gray-700">Email Address</label>
             <input
               ref={emailRef}
               type="email"
               placeholder="Enter the e-mail address"
-              className="w-full my-1 py-2 px-2 font-medium"
+              className="w-full my-1 py-2 px-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-bright"
             />
           </div>
-          <div className="my-2">
-            <label className="text-sm">Paasword</label>
+          <div className="my-2 w-full">
+            <label className="text-sm text-gray-700">Password</label>
             <input
               ref={passwordRef}
               type="password"
               placeholder="Enter the password"
               autoComplete="on"
-              className="w-full my-1 py-2 px-2 font-medium"
+              className="w-full my-1 py-2 px-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-bright"
             />
             {errorMsg && (
               <em className="text-red-700 font-bold pt-1 text-sm">
@@ -149,14 +152,16 @@ const SignIn = () => {
           </div>
           <button
             type="submit"
-            className="bg-bright text-white py-1 px-6 rounded-md mt-1"
+            className="bg-bright text-white py-2 px-6 rounded-md mt-4 w-full shadow-md hover:bg-bright-dark transition duration-300 hover:bg-primary"
           >
             Submit
           </button>
-          <div className="flex gap-4 mt-2">
-            <h3 className="font-medium">Don't have an account yet?</h3>
-            <span className="text-bright font-medium">
-              <Link href="/signup">SignUp</Link>
+          <div className="flex gap-2 mt-4 justify-center">
+            <h3 className="font-medium text-gray-700">
+              Don't have an account yet?
+            </h3>
+            <span className="text-bright font-medium hover:text-primary">
+              <Link href="/signup">Sign Up</Link>
             </span>
           </div>
         </form>

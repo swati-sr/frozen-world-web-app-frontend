@@ -34,6 +34,10 @@ const MdDarkMode = lazy(() =>
   import("react-icons/md").then((module) => ({ default: module.MdDarkMode }))
 );
 
+export const IoIosSearch = lazy(() =>
+  import("react-icons.md").then((module) => ({ default: module.MdDarkMode }))
+);
+
 export {
   GrFireball,
   AiFillProduct,

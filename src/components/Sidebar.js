@@ -12,22 +12,28 @@ export const Sidebar = ({ isAdmin }) => {
   };
 
   return (
-    <div className="bg-primary  w-64 text-white flex flex-col min-h-screen">
-      <div className="p-6 font-bold text-xl">Admin Panel</div>
+    <div className="bg-primary w-64 text-white flex flex-col min-h-screen shadow-lg">
+      <div className="p-6 font-bold text-xl border-b border-gray-700">
+        Admin Panel
+      </div>
       <nav className="flex-1 p-6">
-        <ul className="flex flex-col">
+        <ul className="flex flex-col space-y-2">
           <li
-            className={`${
-              path === "/" ? "active" : ""
-            } py-2 cursor-pointer font-medium hover:text-bright hover:font-semibold`}
+            className={`transition-colors duration-300 py-2 px-4 rounded-md cursor-pointer ${
+              path === "/"
+                ? "bg-bright text-white font-semibold"
+                : "hover:bg-gray-700"
+            }`}
             onClick={() => handleNavigation("/")}
           >
             Home
           </li>
           <li
-            className={`${
-              path === "/profile" ? "active" : ""
-            } py-2 cursor-pointer font-medium hover:text-bright hover:font-semibold`}
+            className={`transition-colors duration-300 py-2 px-4 rounded-md cursor-pointer ${
+              path === "/profile"
+                ? "bg-bright text-white font-semibold"
+                : "hover:bg-gray-700"
+            }`}
             onClick={() => handleNavigation("/profile")}
           >
             Profile
@@ -35,17 +41,21 @@ export const Sidebar = ({ isAdmin }) => {
           {isAdmin && (
             <>
               <li
-                className={`${
-                  path === "/category" ? "active" : ""
-                }  py-2 cursor-pointer font-medium hover:text-bright hover:font-semibold`}
+                className={`transition-colors duration-300 py-2 px-4 rounded-md cursor-pointer ${
+                  path === "/category"
+                    ? "bg-bright text-white font-semibold"
+                    : "hover:bg-gray-700"
+                }`}
                 onClick={() => handleNavigation("/category")}
               >
                 Category
               </li>
               <li
-                className={`${
-                  path === "/users" ? "active" : ""
-                }  py-2 cursor-pointer font-medium hover:text-bright hover:font-semibold`}
+                className={`transition-colors duration-300 py-2 px-4 rounded-md cursor-pointer ${
+                  path === "/users"
+                    ? "bg-bright text-white font-semibold"
+                    : "hover:bg-gray-700"
+                }`}
                 onClick={() => handleNavigation("/users")}
               >
                 Users
