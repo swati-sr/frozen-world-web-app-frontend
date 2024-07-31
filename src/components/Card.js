@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 const Card = ({ productImage, heading, id }) => {
   const router = useRouter();
   const handleViewButton = (id) => {
-    router.push(`/product?id=${id}`);
+    router.push(`/product?id=${id}&name=${heading}`);
   };
 
   return (

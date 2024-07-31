@@ -3,13 +3,19 @@ import FirstContainer from "./FirstContainer";
 import ProductContainer from "./ProductContainer";
 import Header from "./Header";
 import Footer from "./Footer";
+import Brand from "./Brand";
+import { AdvertisingOne } from "./Advertising";
 
-const MainContainer = () => {
+const MainContainer = ({ isDarkMode }) => {
   return (
     <>
       <Header />
-      <FirstContainer />
-      <ProductContainer />
+      <div className="px-32">
+        <FirstContainer />
+        <AdvertisingOne />
+        <ProductContainer />
+        <Brand />
+      </div>
       <Footer />
     </>
   );
