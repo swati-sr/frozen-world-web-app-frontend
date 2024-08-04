@@ -10,10 +10,10 @@ const MainContainer = ({ isDarkMode }) => {
   return (
     <>
       <Header />
-      <div className="px-32">
+      <div>
         <FirstContainer />
-        <AdvertisingOne />
         <ProductContainer />
+        <AdvertisingOne />
         <Brand />
       </div>
       <Footer />

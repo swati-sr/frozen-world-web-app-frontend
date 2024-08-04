@@ -47,9 +47,9 @@ const ProductContainer = () => {
   };
 
   return (
-    <div className="relative w-full bg-white p-6 py-24">
+    <div className="relative w-full bg-white p-6 py-24 px-32">
       <div className="flex items-center justify-center text-4xl font-medium pb-5">
-        <h2 className="text-primary">Shop By Category</h2>
+        <h2 className="text-darkText">Shop by Cuisine or Category</h2>
       </div>
       <div className="flex justify-between items-center">
         <button
@@ -68,6 +68,7 @@ const ProductContainer = () => {
               className="flex flex-shrink-0 w-[100%] sm:w-[50%] justify-center items-center"
             >
               <Card
+              className="bg-green"
                 productImage={item.imageURL ? item.imageURL : dummy}
                 heading={item.name}
                 id={item.id}

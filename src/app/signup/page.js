@@ -62,10 +62,10 @@ const SignUp = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-bright p-6">
+    <div className="min-h-screen flex flex-col items-center justify-center bg-darkGreen p-6">
       <Link
         href="/"
-        className="absolute top-5 left-5 bg-white py-2 px-4 text-bright font-semibold border border-bright rounded-md shadow-md hover:bg-primary hover:text-white"
+        className="absolute top-5 left-5 py-2 px-4 text-white hover:text-yellow font-extrabold hover:cursor-pointer"
       >
         Home
       </Link>
@@ -83,7 +83,7 @@ const SignUp = () => {
           className="p-6 bg-gray-100 flex flex-col items-center w-full md:w-1/2"
           onSubmit={handleSignUpSubmit}
         >
-          <h1 className="font-bold text-2xl py-3 text-gray-800">
+          <h1 className="font-bold text-2xl py-3 text-darkText">
             Create Your Account
           </h1>
           {loading && (
@@ -130,15 +130,15 @@ const SignUp = () => {
           )}
           <button
             type="submit"
-            className="bg-bright text-white py-2 px-6 rounded-md mt-4 w-full shadow-md hover:bg-bright-dark transition duration-300 hover:bg-black"
+            className="bg-green text-black py-2 px-6 rounded-md mt-4 w-full shadow-md hover:bg-yellow transition duration-300 hover:text-white"
           >
             Sign Up
           </button>
           <div className="flex gap-2 mt-4 justify-center">
-            <h3 className="font-medium text-gray-700">
+            <h3 className="font-medium text-darkText">
               Already have an account?
             </h3>
-            <span className="text-bright font-medium hover:text-primary">
+            <span className="text-green font-medium hover:text-yellow">
               <Link href="/signin">Sign In</Link>
             </span>
           </div>

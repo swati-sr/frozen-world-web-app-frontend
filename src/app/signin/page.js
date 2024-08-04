@@ -90,10 +90,10 @@ const SignIn = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-bright p-6">
+    <div className="min-h-screen flex flex-col items-center justify-center bg-green p-6">
       <Link
         href="/"
-        className="absolute shadow-md top-5 left-5 bg-white py-2 px-4 text-bright font-semibold border border-bright rounded-md hover:bg-primary hover:text-white"
+        className="absolute shadow-md top-5 left-5 bg-white py-2 px-4 text-yellow font-semibold rounded-md hover:bg-yellow hover:text-white"
       >
         Home
       </Link>
@@ -113,7 +113,7 @@ const SignIn = () => {
           className="p-6 bg-gray-100 flex flex-col items-center w-full md:w-1/2"
           onSubmit={handleSignInSubmit}
         >
-          <h1 className="font-bold text-2xl py-3 text-gray-800">
+          <h1 className="font-bold text-2xl py-3 text-darkText">
             Welcome Back to Frozen World
           </h1>
           {loading && (
@@ -152,15 +152,15 @@ const SignIn = () => {
           </div>
           <button
             type="submit"
-            className="bg-bright text-white py-2 px-6 rounded-md mt-4 w-full shadow-md hover:bg-bright-dark transition duration-300 hover:bg-primary"
+            className="bg-darkGreen text-white py-2 px-6 rounded-md mt-4 w-full shadow-md hover:bg-yellow transition duration-300"
           >
             Submit
           </button>
           <div className="flex gap-2 mt-4 justify-center">
-            <h3 className="font-medium text-gray-700">
+            <h3 className="font-medium text-darkText">
               Don't have an account yet?
             </h3>
-            <span className="text-bright font-medium hover:text-primary">
+            <span className="text-darkGreen font-medium hover:text-yellow">
               <Link href="/signup">Sign Up</Link>
             </span>
           </div>
