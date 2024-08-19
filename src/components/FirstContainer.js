@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 const FirstContainer = () => {
   const router = useRouter();
   const handleBtn = () => {
-    router.push("/wholesale");
+    router.push("/product");
   };
 
   return (
@@ -26,7 +26,7 @@ const FirstContainer = () => {
           className="border border-white py-2 px-5 rounded-md text-white text-base hover:border-none hover:bg-[#de2348] hover:cursor-pointer"
           onClick={handleBtn}
         >
-          Know More
+          Start Shopping
         </button>
       </div>
       <div className="py-8 md:py-0 md:w-1/2 flex justify-center">

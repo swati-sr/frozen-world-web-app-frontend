@@ -1,14 +1,12 @@
 "use client";
 import axios from "axios";
-import React, { useEffect, useState, Suspense } from "react";
+import React, { useEffect, useState} from "react";
 import { useSearchParams } from "next/navigation";
 import Items from "@/components/Items";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { API_BASE_URL } from "@/utils/constants";
-import {
-  IoIosSearch
-} from "../../utils/icon"; 
+import SearchBar from "@/components/SeacrhBar";
 
 const Page = () => {
   const searchParams = useSearchParams();
@@ -67,13 +65,8 @@ const Page = () => {
             </>
           ) : (
             <>
-              <div className="flex items-center space-x-2">
-                <input type="text" placeholder="Find the product here" className="border rounded p-2"/>
-                <Suspense fallback={<div>Loading...</div>}>
-                  <button className="bg-primary p-2 rounded">
-                    <IoIosSearch className="text-white" size={24}/> {/* Use the icon as a React component */}
-                  </button>
-                </Suspense>
+              <div className="flex items-center">
+                <SearchBar placeholderText={"Find the products here"}/>
               </div>
             </>
           )}

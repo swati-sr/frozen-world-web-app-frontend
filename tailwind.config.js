@@ -14,6 +14,7 @@ module.exports = {
         green: "#98c869",
         darkGreen: "#058203",
         darkText: "#45595b",
+        purple: "#C8A1E0",
         footer: "#333",
         baseOne: "rgba(255, 69, 0, 0.4)",
         bright: "rgb(255, 69, 0)",

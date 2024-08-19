@@ -39,9 +39,6 @@ const Header = () => {
 
   return (
     <>
-      {/* <div className="bg-primary text-white py-2 transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300">
-        <Discount offerBy={"Flat 50%"} offerAmount={"5000"} />
-      </div> */}
       <div className="py-4 px-4 md:px-16 flex justify-between items-center shadow-md sticky top-0 bg-yellow z-10">
         <Link href="/" className="text-white font-bold text-2xl">
           {WEB_APP_NAME}
