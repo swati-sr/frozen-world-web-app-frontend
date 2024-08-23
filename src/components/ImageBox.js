@@ -51,6 +51,7 @@ const ImageBox = ({ apiUrl, link, setLink, title }) => {
             layout="fill"
             objectFit="cover"
             className="rounded-full"
+            loading="lazy"
           />
         )}
       </div>

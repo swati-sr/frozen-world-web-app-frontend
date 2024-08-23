@@ -11,7 +11,7 @@
   }
 }
 .spin-slow {
-  animation: spin-slow 7s linear infinite;
+  animation: spin-slow 15s linear infinite;
 }
 
 div.tabs > * {

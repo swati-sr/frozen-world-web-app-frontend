@@ -6,7 +6,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import boyEating from "../../../public/boyEating.png";
 import { login } from "@/lib/features/authSlice";
-import { API_BASE_URL } from "@/utils/constants";
+import { signIn } from "@/utils/apis/api"; 
 
 const SignIn = () => {
   const dispatch = useDispatch();
@@ -27,27 +27,16 @@ const SignIn = () => {
       return;
     }
 
+    setLoading(true);
+    setErrorMsg(null); 
+
     try {
       const payload = {
         username: emailValue,
         password: passwordValue,
       };
-      setLoading(true);
-      setSuccess(false);
-      const response = await fetch(`${API_BASE_URL}/login`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(payload),
-      });
 
-      if (!response.ok) {
-        setLoading(false);
-        throw new Error("Network response was not ok");
-      }
-
-      const json = await response.json();
+      const json = await signIn(payload); 
       if (json.success) {
         const {
           email,
@@ -61,7 +50,9 @@ const SignIn = () => {
           state,
           pincode,
         } = json.data.user;
+
         document.cookie = `access_token=${json.data.access_token}; path=/`;
+
         dispatch(
           login({
             grade: accessGrade,
@@ -77,27 +68,28 @@ const SignIn = () => {
             token: json.data.access_token,
           })
         );
+
         setSuccess(true);
-        setLoading(false);
         router.push("/");
       } else {
-        setLoading(false);
         setErrorMsg(json.error.message || "An unexpected error occurred.");
       }
     } catch (error) {
       setErrorMsg(error.message || "An unexpected error occurred.");
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-bright p-6">
+    <div className="min-h-screen flex flex-col items-center justify-center bg-green p-6">
       <Link
         href="/"
-        className="absolute shadow-md top-5 left-5 bg-white py-2 px-4 text-bright font-semibold border border-bright rounded-md hover:bg-primary hover:text-white"
+        className="absolute shadow-md top-5 left-5 bg-white py-2 px-4 text-yellow font-semibold rounded-md hover:bg-yellow hover:text-white"
       >
         Home
       </Link>
-      <div className="flex flex-col md:flex-row items-center justify-center w-full max-w-4xl p-6 bg-white  shadow-lg">
+      <div className="flex flex-col md:flex-row items-center justify-center w-full max-w-4xl p-6 bg-white shadow-lg">
         <div className="mb-8 md:mb-0 md:mr-8">
           <Image
             className=""
@@ -113,7 +105,7 @@ const SignIn = () => {
           className="p-6 bg-gray-100 flex flex-col items-center w-full md:w-1/2"
           onSubmit={handleSignInSubmit}
         >
-          <h1 className="font-bold text-2xl py-3 text-gray-800">
+          <h1 className="font-bold text-2xl py-3 text-darkText">
             Welcome Back to Frozen World
           </h1>
           {loading && (
@@ -152,15 +144,15 @@ const SignIn = () => {
           </div>
           <button
             type="submit"
-            className="bg-bright text-white py-2 px-6 rounded-md mt-4 w-full shadow-md hover:bg-bright-dark transition duration-300 hover:bg-primary"
+            className="bg-darkGreen text-white py-2 px-6 rounded-md mt-4 w-full shadow-md hover:bg-yellow transition duration-300"
           >
             Submit
           </button>
           <div className="flex gap-2 mt-4 justify-center">
-            <h3 className="font-medium text-gray-700">
+            <h3 className="font-medium text-darkText">
               Don't have an account yet?
             </h3>
-            <span className="text-bright font-medium hover:text-primary">
+            <span className="text-darkGreen font-medium hover:text-yellow">
               <Link href="/signup">Sign Up</Link>
             </span>
           </div>

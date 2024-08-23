@@ -23,6 +23,7 @@ const Card = ({ productImage, heading, id }) => {
           <Image
             src={productImage}
             alt="food product"
+            loading="lazy"
             layout="fill"
             objectFit="cover"
             className="rounded-lg"

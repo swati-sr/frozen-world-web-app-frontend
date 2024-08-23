@@ -12,6 +12,7 @@ const Items = ({ name, description, price, size, image }) => {
           layout="fill"
           objectFit="cover"
           className="object-cover"
+          loading="lazy"
         />
       </div>
       <div className="p-4 flex flex-col flex-grow">
