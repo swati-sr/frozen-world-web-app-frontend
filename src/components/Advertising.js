@@ -6,7 +6,7 @@ export const AdvertisingOne = () => {
     <div className="bg-red text-center py-4 shadow-xl relative overflow-hidden px-32">
       <div className="flex items-center justify-center mb-4">
         <h2 className="text-4xl font-semibold text-white mr-8">Why Frozen World?</h2>
-        <Image src={food} alt="wholesale-items" className="-rotate-90" />
+        <Image src={food} alt="wholesale-items" loading="lazy" className="-rotate-90" />
       </div>
       <div className="flex flex-col md:flex-row items-center md:items-start justify-evenly text-white">
         <div className="p-6">

@@ -32,6 +32,7 @@ const FirstContainer = () => {
       <div className="py-8 md:py-0 md:w-1/2 flex justify-center">
         <Image
           className="spin-slow h-[35vh] w-[35vh] md:h-[50vh] md:w-[50vh] relative md:left-[16%]"
+          loading="lazy"
           src={food}
           alt="Gourmet food image"
         />
