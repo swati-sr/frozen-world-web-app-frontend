@@ -1,15 +1,13 @@
-"use client";
-import Header from "@/components/Header";
+"use client"; 
 import Cookies from "js-cookie";
 import { redirect } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import userImage from "../../../public/userImage.jpg";
 import { useDispatch, useSelector } from "react-redux";
-import { updateUser } from "@/lib/features/authSlice";
-import { API_BASE_URL } from "@/utils/constants";
-import AdminTabs from "@/components/AdminTabs";
+import { updateUser } from "@/lib/features/authSlice"; 
 import ImageBox from "@/components/ImageBox";
 import { Sidebar } from "@/components/Sidebar";
+import { updateUser as updateUserAPI } from "@/utils/apis/api";
 
 const Page = () => {
   const tokenFromCookie = Cookies.get("access_token");
@@ -65,21 +63,10 @@ const Page = () => {
       };
       setLoading(true);
       setSuccess(false);
-      const response = await fetch(`${API_BASE_URL}/user/updateUser`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${tokenFromCookie}`,
-        },
-        body: JSON.stringify(payload),
-      });
+ 
+      const response = await updateUserAPI(payload);
 
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-
-      const json = await response.json();
-      if (json.success) {
+      if (response.success) {
         dispatch(
           updateUser({
             phoneNumber: contact,
@@ -91,12 +78,14 @@ const Page = () => {
             pincode: postalCode,
           })
         );
+        setSuccess(true);
+      } else {
+        throw new Error(response.message || "Failed to update user.");
       }
-      setLoading(false);
-      setSuccess(true);
     } catch (error) {
-      setLoading(false);
       setErrorMsg(error.message);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -186,6 +175,9 @@ const Page = () => {
               >
                 Save
               </button>
+              {loading && <p>Loading...</p>}
+              {success && <p className="text-green-500">Profile updated successfully!</p>}
+              {errorMsg && <p className="text-red-500">{errorMsg}</p>}
             </form>
           </div>
         </div>

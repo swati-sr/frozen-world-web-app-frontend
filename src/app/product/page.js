@@ -1,47 +1,43 @@
 "use client";
-import axios from "axios";
-import React, { useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import Items from "@/components/Items";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { API_BASE_URL } from "@/utils/constants";
+import { listProductsByCategory, listProducts } from "@/utils/apis/api"; 
 import SearchBar from "@/components/SeacrhBar";
 
 const Page = () => {
   const searchParams = useSearchParams();
   const urlId = searchParams.get("id");
   const [productList, setProductList] = useState([]);
+  const [filteredProducts, setFilteredProducts] = useState([]);
   const [loading, setLoading] = useState(true);
 
   const fetchProducts = async () => {
-    let url = "";
-    if (!urlId) {
-      url = `${API_BASE_URL}/product`;
-    } else {
-      url = `${API_BASE_URL}/product/category?categoryId=${urlId}`;
-    }
-
     try {
-      const response = await axios.get(url, {
-        headers: {
-          "ngrok-skip-browser-warning": "69420",
-          "Content-Type": "application/json",
-        },
-      });
-      if (response.headers["content-type"].includes("text/html")) {
-        throw new Error("Received HTML response instead of JSON");
-      }
+      const response = !urlId 
+        ? await listProducts() 
+        : await listProductsByCategory(urlId);
 
-      if (response.data && response.data.data) {
-        setProductList(response.data.data);
-      } else {
-        console.error("Invalid response data");
-      }
+      const products = response.data?.data || [];
+      setProductList(products);
+      setFilteredProducts(products);
     } catch (error) {
       console.error("Error fetching products:", error);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleSearch = (query) => {
+    if (query) {
+      const filtered = productList.filter(item =>
+        item.name.toLowerCase().includes(query.toLowerCase())
+      );
+      setFilteredProducts(filtered);
+    } else {
+      setFilteredProducts(productList);
     }
   };
 
@@ -64,20 +60,18 @@ const Page = () => {
               </p>
             </>
           ) : (
-            <>
-              <div className="flex items-center">
-                <SearchBar placeholderText={"Find the products here"}/>
-              </div>
-            </>
+            <div className="flex items-center">
+              <SearchBar placeholderText={"Find the products here"} onSearch={handleSearch} />
+            </div>
           )}
         </div>
         {loading ? (
           <div className="text-center text-gray-600 text-xl">
             Loading items...
           </div>
-        ) : productList.length > 0 ? (
+        ) : filteredProducts.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 px-4 sm:px-6 lg:px-8 w-full max-w-6xl">
-            {productList.map((item) => (
+            {filteredProducts.map((item) => (
               <Items
                 key={item.id}
                 image={item.imageURL}

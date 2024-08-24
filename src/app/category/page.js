@@ -1,140 +1,38 @@
 "use client";
-import AdminTabs from "@/components/AdminTabs";
+
 import Cookies from "js-cookie";
-import Header from "@/components/Header";
-import { API_BASE_URL } from "@/utils/constants";
-import React, { useEffect, useState } from "react";
 import { redirect } from "next/navigation";
-import axios from "axios";
-import ImageBox from "@/components/ImageBox";
 import { useRouter } from "next/navigation";
 import { Sidebar } from "@/components/Sidebar";
+import useCategories from "@/utils/useCategories"; 
 
 const Page = () => {
   const tokenFromCookie = Cookies.get("access_token");
   if (!tokenFromCookie) redirect("/");
 
-  const [category, setCategory] = useState("");
-  const [categoryList, setCategoryList] = useState([]);
-  const [editCategory, setEditCategory] = useState(null);
-  const [deleteCategory, setDeleteCategory] = useState(null);
-  const [imageLink, setImageLink] = useState(null);
-  const [imageId, setImageId] = useState(null);
-  const [imageName, setImageName] = useState(null);
-  const [optionalBtn, setOptionalBtn] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const {
+    category,
+    setCategory,
+    categoryList,
+    editCategory,
+    setEditCategory,
+    deleteCategory,
+    setDeleteCategory,
+    imageLink,
+    setImageLink,
+    imageId,
+    setImageId,
+    imageName,
+    setImageName,
+    isModalOpen,
+    setIsModalOpen,
+    handleNewCategorySubmit,
+    handleCategoryUpdate,
+    handleDeleteCategory,
+    // fetchCategories,
+  } = useCategories(); 
 
   const router = useRouter();
-
-  const handleNewCategorySubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const payload = {
-        name: category,
-        parentCategory: 0,
-      };
-      const response = await axios.post(
-        `${API_BASE_URL}/category/create`,
-        payload,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${tokenFromCookie}`,
-          },
-        }
-      );
-
-      if (response.data && response.data.data) {
-        setCategoryList((prevList) => [...prevList, response.data.data]);
-        setCategory("");
-      } else {
-        throw new Error("Invalid response data");
-      }
-    } catch (error) {
-      console.error("Error:", error);
-    }
-  };
-
-  const fetchCategories = async () => {
-    try {
-      const response = await axios.get(`${API_BASE_URL}/category/`, {
-        headers: {
-          Authorization: `Bearer ${tokenFromCookie}`,
-          "ngrok-skip-browser-warning": "69420",
-          "Content-Type": "application/json",
-        },
-      });
-
-      if (response.headers["content-type"].includes("text/html")) {
-        throw new Error("Received HTML response instead of JSON");
-      }
-
-      if (response.data && response.data.data) {
-        setCategoryList(response.data.data);
-      } else {
-        throw new Error("Invalid response data");
-      }
-    } catch (error) {
-      console.error("Error fetching categories:", error);
-    }
-  };
-
-  const handleCategoryUpdate = async (e) => {
-    e.preventDefault();
-    const { id, imageURL, parentCategory } = editCategory;
-    try {
-      const payload = {
-        name: category,
-        parentCategory: parentCategory,
-        imageURL: imageURL,
-      };
-      const response = await axios.patch(
-        `${API_BASE_URL}/category/update/${id}`,
-        payload,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${tokenFromCookie}`,
-          },
-        }
-      );
-      if (response.data) {
-        setCategoryList((prevList) =>
-          prevList.map((cat) => (cat.id === id ? response.data.data : cat))
-        );
-        await fetchCategories();
-        setEditCategory(null);
-        setCategory("");
-      }
-    } catch (error) {
-      console.error("Error updating category:", error);
-    }
-  };
-
-  const handleDeleteCategory = async (e) => {
-    e.preventDefault();
-    const { id } = deleteCategory;
-    try {
-      const response = await axios.delete(`${API_BASE_URL}/category/${id}`, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${tokenFromCookie}`,
-        },
-      });
-      if (response.data) {
-        setCategoryList((prevList) => prevList.filter((cat) => cat.id !== id));
-        await fetchCategories();
-        setDeleteCategory(null);
-        setCategory("");
-      }
-    } catch (error) {
-      console.error("Error deleting category:", error);
-    }
-  };
-
-  useEffect(() => {
-    fetchCategories();
-  }, [imageLink]);
 
   return (
     <>
@@ -146,6 +44,7 @@ const Page = () => {
             <div className="space-y-6">
               <form
                 onSubmit={(e) => {
+                  e.preventDefault();
                   if (editCategory) {
                     handleCategoryUpdate(e);
                   } else if (deleteCategory) {
@@ -201,7 +100,6 @@ const Page = () => {
                             setEditCategory(p);
                             setCategory(p.name);
                             setImageId(null);
-                            setOptionalBtn(true);
                           }}
                         >
                           Edit
@@ -215,7 +113,6 @@ const Page = () => {
                             setEditCategory(null);
                             setDeleteCategory(null);
                             setImageLink(p.imageURL);
-                            setOptionalBtn(true);
                           }}
                         >
                           Upload
@@ -226,8 +123,6 @@ const Page = () => {
                             setEditCategory(null);
                             setDeleteCategory(p);
                             setCategory(p.name);
-                            setImageId(null);
-                            setOptionalBtn(true);
                           }}
                         >
                           Delete
@@ -240,7 +135,6 @@ const Page = () => {
                             setCategory(null);
                             setImageId(null);
                             router.push(`/product/items?id=${p.id}`);
-                            setOptionalBtn(true);
                           }}
                         >
                           Products

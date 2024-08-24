@@ -1,12 +1,23 @@
 import { IoIosSearch } from "@/utils/icon";
+import React, { useState } from "react";
 
-const SearchBar = ({ placeholderText }) => {
+const SearchBar = ({ placeholderText, onSearch }) => {
+    const [searchQuery, setSearchQuery] = useState("");
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        onSearch(searchQuery); 
+        setSearchQuery(""); 
+    };
+
     return (
-        <form>
+        <form onSubmit={handleSubmit}>
             <div className="flex items-center">
                 <input
                     type="text"
                     placeholder={placeholderText}
+                    value={searchQuery} 
+                    onChange={(e) => setSearchQuery(e.target.value)} 
                     className="border py-2 px-16 rounded-l-3xl text-darkText"
                 />
                 <button

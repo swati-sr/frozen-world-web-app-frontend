@@ -1,142 +1,59 @@
-"use client";
-import Header from "@/components/Header";
+"use client"; 
 import Cookies from "js-cookie";
 import { redirect } from "next/navigation";
-import React, { useEffect, useState, useRef } from "react";
-import axios from "axios";
-import { API_BASE_URL } from "@/utils/constants";
+import React, { useRef, useState } from "react";
 import ImageBox from "@/components/ImageBox";
 import { Sidebar } from "@/components/Sidebar";
-import { useSearchParams, useRouter } from "next/navigation";
+import { useSearchParams } from "next/navigation";
+import useProducts from "@/utils/useProducts"; 
 
 const Page = () => {
   const token = Cookies.get("access_token");
   if (!token) redirect("/");
   const searchParams = useSearchParams();
-  const router = useRouter();
   const urlId = searchParams.get("id");
 
-  const [productList, setProductList] = useState([]);
+  const {
+    productList,
+    loading,
+    createNewProduct,
+    updateExistingProduct,
+    removeProduct,
+  } = useProducts(urlId);
+
   const [imageLink, setImageLink] = useState(null);
   const [imageId, setImageId] = useState(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const [imageItem, setImageItem] = useState(null);
+  const [editProduct, setEditProduct] = useState(null);
   const itemName = useRef(null);
   const itemDescription = useRef(null);
   const itemSize = useRef(null);
   const itemPrice = useRef(null);
-  const [editProduct, setEditProduct] = useState(null);
 
-  useEffect(() => {
-    if (!token || !urlId) {
-      redirect("/");
-    }
-  }, [token, urlId]);
-
-  const fetchProducts = async () => {
-    try {
-      const response = await axios.get(
-        `${API_BASE_URL}/product/category?categoryId=${urlId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "ngrok-skip-browser-warning": "69420",
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      if (response.headers["content-type"].includes("text/html")) {
-        throw new Error("Received HTML response instead of JSON");
-      }
-
-      if (response.data && response.data.data) {
-        setProductList(response.data.data);
-      } else {
-        throw new Error("Invalid response data");
-      }
-    } catch (error) {
-      console.error("Error fetching products:", error);
-    }
-  };
-
-  const handleFormSubmit = async (e) => {
+  const handleFormSubmit = (e) => {
     e.preventDefault();
-    try {
-      const payload = {
-        name: itemName.current.value,
-        description: itemDescription.current.value,
-        size: itemSize.current.value,
-        price: itemPrice.current.value,
-        category: urlId,
-      };
-      const response = await axios.post(`${API_BASE_URL}/product`, payload, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      if (response.data) {
-        await fetchProducts();
-      } else {
-        throw new Error("Invalid response data");
-      }
-    } catch (error) {
-      console.error("Error:", error);
-    }
+    const payload = {
+      name: itemName.current.value,
+      description: itemDescription.current.value,
+      size: itemSize.current.value,
+      price: itemPrice.current.value,
+      category: urlId,
+    };
+    createNewProduct(payload);
   };
 
-  const handleUpdateProduct = async (e) => {
+  const handleUpdateProduct = (e) => {
     e.preventDefault();
     const { id } = editProduct;
-    try {
-      const payload = {
-        name: itemName.current.value,
-        description: itemDescription.current.value,
-        size: itemSize.current.value,
-        price: itemPrice.current.value,
-        category: urlId,
-      };
-      const response = await axios.put(`${API_BASE_URL}/product/${id}`, payload, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      if (response.data) {
-        await fetchProducts();
-        setEditProduct(null);
-      } else {
-        throw new Error("Invalid response data");
-      }
-    } catch (error) {
-      console.error("Error updating product:", error);
-    }
+    const payload = {
+      name: itemName.current.value,
+      description: itemDescription.current.value,
+      size: itemSize.current.value,
+      price: itemPrice.current.value,
+      category: urlId,
+    };
+    updateExistingProduct(id, payload);
+    setEditProduct(null);
   };
-
-  const handleDeleteProduct = async (id) => {
-    try {
-      const response = await axios.delete(`${API_BASE_URL}/product/${id}`, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      if (response.data) {
-        await fetchProducts();
-      } else {
-        throw new Error("Invalid response data");
-      }
-    } catch (error) {
-      console.error("Error deleting product:", error);
-    }
-  };
-
-  useEffect(() => {
-    fetchProducts();
-  }, [imageItem]);
 
   return (
     <div className="flex">
@@ -158,45 +75,35 @@ const Page = () => {
                 setLink={setImageItem}
               />
             )}
-            <label className="text-sm font-medium text-secondary mt-4">
-              Product Item
-            </label>
+            <label className="text-sm font-medium text-secondary mt-4">Product Item</label>
             <input
               type="text"
               className="w-full mb-2 py-2 px-4 font-medium rounded-md shadow-md"
               ref={itemName}
               defaultValue={editProduct?.name || ""}
             />
-            <label className="text-sm font-medium text-secondary mt-2">
-              Description
-            </label>
+            <label className="text-sm font-medium text-secondary mt-2">Description</label>
             <input
               type="text"
               className="w-full mb-2 py-2 px-4 font-medium rounded-md shadow-md"
               ref={itemDescription}
               defaultValue={editProduct?.description || ""}
             />
-            <label className="text-sm font-medium text-secondary mt-2">
-              Size
-            </label>
+            <label className="text-sm font-medium text-secondary mt-2">Size</label>
             <input
               type="text"
               className="w-full mb-2 py-2 px-4 font-medium rounded-md shadow-md"
               ref={itemSize}
               defaultValue={editProduct?.size || ""}
             />
-            <label className="text-sm font-medium text-secondary mt-2">
-              Price
-            </label>
+            <label className="text-sm font-medium text-secondary mt-2">Price</label>
             <input
               type="text"
               className="w-full mb-2 py-2 px-4 font-medium rounded-md shadow-md"
               ref={itemPrice}
               defaultValue={editProduct?.price || ""}
             />
-            <label className="text-sm font-medium text-secondary mt-2">
-              Category
-            </label>
+            <label className="text-sm font-medium text-secondary mt-2">Category</label>
             <input
               type="text"
               className="w-full mb-2 py-2 px-4 font-medium rounded-md shadow-md"
@@ -211,11 +118,11 @@ const Page = () => {
             </button>
           </form>
           <div className="flex-grow lg:ml-6 bg-white p-6 rounded-md shadow-md overflow-y-auto">
-            {productList.length === 0 ? (
+            {loading ? (
+              <p>Loading...</p>
+            ) : productList.length === 0 ? (
               <div className="text-center text-gray-600">
-                <p className="text-lg font-medium">
-                  No items in this category yet.
-                </p>
+                <p className="text-lg font-medium">No items in this category yet.</p>
               </div>
             ) : (
               productList.map((product) => (
@@ -255,7 +162,7 @@ const Page = () => {
                     </button>
                     <button
                       className="bg-red-500 text-white py-1 px-2 rounded-md shadow-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-transform duration-300 transform-gpu"
-                      onClick={() => handleDeleteProduct(product.id)}
+                      onClick={() => removeProduct(product.id)}
                     >
                       Delete
                     </button>
@@ -266,25 +173,6 @@ const Page = () => {
           </div>
         </div>
       </div>
-      {isModalOpen && (
-        <div
-          className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 transition-opacity duration-300"
-          onClick={() => setIsModalOpen(false)}
-        >
-          <div
-            className="bg-white p-8 rounded-lg shadow-lg transform transition-transform duration-300"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <h3 className="text-xl font-bold mb-4">Upload Image for {imageName}</h3>
-            <ImageBox
-              link={imageLink}
-              apiUrl={`category/upload/${imageId}`}
-              title={`Upload for ${imageName}`}
-              setLink={(link) => setImageLink(link)}
-            />
-          </div>
-        </div>
-      )}
     </div>
   );
 };
