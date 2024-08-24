@@ -6,7 +6,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import boyEating from "../../../public/boyEating.png";
 import { login } from "@/lib/features/authSlice";
-import { API_BASE_URL } from "@/utils/constants";
+import { signIn } from "@/utils/apis/api"; 
 
 const SignIn = () => {
   const dispatch = useDispatch();
@@ -27,27 +27,16 @@ const SignIn = () => {
       return;
     }
 
+    setLoading(true);
+    setErrorMsg(null); 
+
     try {
       const payload = {
         username: emailValue,
         password: passwordValue,
       };
-      setLoading(true);
-      setSuccess(false);
-      const response = await fetch(`${API_BASE_URL}/login`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(payload),
-      });
 
-      if (!response.ok) {
-        setLoading(false);
-        throw new Error("Network response was not ok");
-      }
-
-      const json = await response.json();
+      const json = await signIn(payload); 
       if (json.success) {
         const {
           email,
@@ -61,7 +50,9 @@ const SignIn = () => {
           state,
           pincode,
         } = json.data.user;
+
         document.cookie = `access_token=${json.data.access_token}; path=/`;
+
         dispatch(
           login({
             grade: accessGrade,
@@ -77,15 +68,16 @@ const SignIn = () => {
             token: json.data.access_token,
           })
         );
+
         setSuccess(true);
-        setLoading(false);
         router.push("/");
       } else {
-        setLoading(false);
         setErrorMsg(json.error.message || "An unexpected error occurred.");
       }
     } catch (error) {
       setErrorMsg(error.message || "An unexpected error occurred.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -97,7 +89,7 @@ const SignIn = () => {
       >
         Home
       </Link>
-      <div className="flex flex-col md:flex-row items-center justify-center w-full max-w-4xl p-6 bg-white  shadow-lg">
+      <div className="flex flex-col md:flex-row items-center justify-center w-full max-w-4xl p-6 bg-white shadow-lg">
         <div className="mb-8 md:mb-0 md:mr-8">
           <Image
             className=""

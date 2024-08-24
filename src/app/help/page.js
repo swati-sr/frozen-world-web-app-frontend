@@ -36,7 +36,6 @@ const Page = () => {
 
       if (response.ok) {
         setStatus("Message sent successfully!");
-        // Clear the form
         setFormData({
           name: "",
           organisationName: "",
@@ -55,7 +54,7 @@ const Page = () => {
   return (
     <>
       <Header />
-      <div className="bg-bright min-h-screen pt-11">
+      <div className="bg-[#de2348] min-h-screen pt-11">
         <div className="px-4 md:px-32 w-full">
           <h2 className="text-2xl md:text-4xl font-semibold mb-6 text-white flex flex-col">
             Help & Support
@@ -64,7 +63,7 @@ const Page = () => {
             </span>
           </h2>
           <div className="px-4 md:px-11 py-11 bg-gray-100 w-full grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="text-lg font-semibold text-secondary mb-2">
+            <div className="text-lg font-semibold text-darkText mb-2">
               <h3 className="flex flex-col py-1 my-1">
                 Address:{" "}
                 <span className="text-base">
@@ -126,7 +125,7 @@ const Page = () => {
               />
               <button
                 type="submit"
-                className="w-full bg-primary text-white p-2 rounded-md hover:bg-bright focus:outline-none focus:ring-2 focus:ring-bright"
+                className="w-full bg-darkText text-white p-2 rounded-md hover:bg-white hover:border hover:border-darkText hover:text-darkText focus:outline-none focus:ring-2 focus:ring-bright"
               >
                 Send a Message
               </button>
