@@ -38,7 +38,11 @@ export const signIn = async (payload) => {
 // Category Functions
 export const listCategories = async (token) => {
     const response = await fetch(`${mainUrl}${CATEGORY_PATH.LIST}`, {
-        headers: createHeaders(token),
+        headers: {
+            ...createHeaders(token),
+            "ngrok-skip-browser-warning": "69420", 
+            "Content-Type": "application/json",
+        },
     });
     return response.json();
 };
@@ -154,8 +158,7 @@ export const updatePassword = async (payload, token) => {
 export const uploadUserImage = async (formData, token) => {
     const response = await fetch(`${mainUrl}${USER_PATH.UPLOAD_IMAGE}`, {
         method: 'POST',
-        headers: {
-            // Avoid setting 'Content-Type' header for FormData
+        headers: { 
             Authorization: `Bearer ${token}`,
         },
         body: formData,
