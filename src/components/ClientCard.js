@@ -7,7 +7,7 @@ export const ClientCard = ({ brand }) => {
     <div className="bg-white w-60 shadow-lg rounded-sm overflow-hidden transform hover:scale-105 transition-transform duration-300 relative mx-2">
       {link && (
         <button
-          className="absolute top-2 right-2 bg-bright text-white p-2 rounded hover:bg-primary"
+          className="absolute top-2 right-2 bg-green text-white p-2 rounded hover:bg-darkGreen"
           onClick={() => window.open(link, "_blank")}
         >
           <FaExternalLinkSquareAlt />

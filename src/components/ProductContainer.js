@@ -57,7 +57,7 @@ const ProductContainer = () => {
       <div className="flex justify-between items-center">
         <button
           onClick={scrollLeft}
-          className="border border-primary text-secondary py-3 px-2 rounded-sm"
+          className="border border-darkText text-darkText py-3 px-2 rounded-sm"
         >
           &#10094;
         </button>
@@ -81,7 +81,7 @@ const ProductContainer = () => {
         </div>
         <button
           onClick={scrollRight}
-          className="bg-bright text-white py-3 px-2 rounded-sm"
+          className="bg-darkText text-white py-3 px-2 rounded-sm"
         >
           &#10095;
         </button>

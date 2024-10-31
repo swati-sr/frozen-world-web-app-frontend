@@ -76,10 +76,10 @@ const Header = () => {
           </Link>
         </div>
         <div className="hidden md:flex items-center">
-          <MdDarkMode
+          {/* <MdDarkMode
             className="mr-4 text-lg hover:cursor-pointer hover:text-darkText text-white"
             onClick={handleTheme}
-          />
+          /> */}
           {token && firstName ? (
             <>
               <Link

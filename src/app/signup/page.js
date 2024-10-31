@@ -54,7 +54,7 @@ const SignUp = () => {
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-darkGreen p-6">
-      <Link href="/" className="absolute top-5 left-5 py-2 px-4 text-white hover:text-yellow font-extrabold hover:cursor-pointer">
+      <Link href="/" className="absolute shadow-md top-5 left-5 bg-white py-2 px-4 text-darkGreen font-semibold rounded-md hover:bg-yellow hover:text-white">
         Home
       </Link>
       <div className="flex flex-col md:flex-row items-center justify-center w-full max-w-4xl p-6 bg-white shadow-lg">

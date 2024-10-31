@@ -1,11 +1,14 @@
 import { AUTH_PATH, CATEGORY_PATH, PRODUCT_PATH, USER_PATH } from "./path";
 import { API_BASE_URL } from "../constants";
+import Cookies from "js-cookie";
 
 const mainUrl = API_BASE_URL;
 
 const headers = {
     'Content-Type': 'application/json',
 };
+
+const tokenFromCookie = Cookies.get("access_token");
 
 // Helper function
 const createHeaders = (token) => {
@@ -36,130 +39,129 @@ export const signIn = async (payload) => {
 };
 
 // Category Functions
-export const listCategories = async (token) => {
+export const listCategories = async () => {
     const response = await fetch(`${mainUrl}${CATEGORY_PATH.LIST}`, {
         headers: {
-            ...createHeaders(token),
+            ...createHeaders(tokenFromCookie),
             "ngrok-skip-browser-warning": "69420", 
-            "Content-Type": "application/json",
         },
     });
     return response.json();
 };
 
-export const getCategoryById = async (id, token) => {
+export const getCategoryById = async (id) => {
     const response = await fetch(`${mainUrl}${CATEGORY_PATH.LIST_BY_ID.replace(':id', id)}`, {
-        headers: createHeaders(token),
+        headers: createHeaders(tokenFromCookie),
     });
     return response.json();
 };
 
-export const createCategory = async (payload, token) => {
+export const createCategory = async (payload) => {
     const response = await fetch(`${mainUrl}${CATEGORY_PATH.CREATE}`, {
         method: 'POST',
-        headers: createHeaders(token),
+        headers: createHeaders(tokenFromCookie),
         body: JSON.stringify(payload),
     });
     return response.json();
 };
 
-export const updateCategory = async (id, payload, token) => {
+export const updateCategory = async (id, payload) => {
     const response = await fetch(`${mainUrl}${CATEGORY_PATH.UPDATE.replace(':id', id)}`, {
         method: 'PUT',
-        headers: createHeaders(token),
+        headers: createHeaders(tokenFromCookie),
         body: JSON.stringify(payload),
     });
     return response.json();
 };
 
-export const deleteCategory = async (id, token) => {
+export const deleteCategory = async (id) => {
     const response = await fetch(`${mainUrl}${CATEGORY_PATH.DELETE.replace(':id', id)}`, {
         method: 'DELETE',
-        headers: createHeaders(token),
+        headers: createHeaders(tokenFromCookie),
     });
     return response.json();
 };
 
 // Product Functions
-export const listProducts = async (token) => {
+export const listProducts = async () => {
     const response = await fetch(`${mainUrl}${PRODUCT_PATH.LIST}`, {
-        headers: createHeaders(token),
+        headers: createHeaders(tokenFromCookie),
     });
     return response.json();
 };
 
-export const getProductById = async (id, token) => {
+export const getProductById = async (id) => {
     const response = await fetch(`${mainUrl}${PRODUCT_PATH.LIST_BY_ID.replace(':id', id)}`, {
-        headers: createHeaders(token),
+        headers: createHeaders(tokenFromCookie),
     });
     return response.json();
 };
 
-export const listProductsByCategory = async (categoryId, token) => {
+export const listProductsByCategory = async (categoryId) => {
     const response = await fetch(`${mainUrl}${PRODUCT_PATH.LIST_BY_CATEGORY_ID}${categoryId}`, {
         method: 'GET',
-        headers: createHeaders(token),
+        headers: createHeaders(tokenFromCookie),
     });
     return response.json();
 };
 
-export const createProduct = async (payload, token) => {
+export const createProduct = async (payload) => {
     const response = await fetch(`${mainUrl}${PRODUCT_PATH.CREATE}`, {
         method: 'POST',
-        headers: createHeaders(token),
+        headers: createHeaders(tokenFromCookie),
         body: JSON.stringify(payload),
     });
     return response.json();
 };
 
-export const updateProduct = async (id, payload, token) => {
+export const updateProduct = async (id, payload) => {
     const response = await fetch(`${mainUrl}${PRODUCT_PATH.UPDATE.replace(':id', id)}`, {
         method: 'PUT',
-        headers: createHeaders(token),
+        headers: createHeaders(tokenFromCookie),
         body: JSON.stringify(payload),
     });
     return response.json();
 };
 
-export const deleteProduct = async (id, token) => {
+export const deleteProduct = async (id) => {
     const response = await fetch(`${mainUrl}${PRODUCT_PATH.DELETE.replace(':id', id)}`, {
         method: 'DELETE',
-        headers: createHeaders(token),
+        headers: createHeaders(tokenFromCookie),
     });
     return response.json();
 };
 
 // User Functions
-export const listUsers = async (token) => {
+export const listUsers = async () => {
     const response = await fetch(`${mainUrl}${USER_PATH.LIST}`, {
-        headers: createHeaders(token),
+        headers: createHeaders(tokenFromCookie),
     });
     return response.json();
 };
 
-export const updateUser = async (payload, token) => {
+export const updateUser = async (payload) => {
     const response = await fetch(`${mainUrl}${USER_PATH.UPDATE_USER}`, {
-        method: 'PUT',
-        headers: createHeaders(token),
+        method: 'PATCH',
+        headers: createHeaders(tokenFromCookie),
         body: JSON.stringify(payload),
     });
     return response.json();
 };
 
-export const updatePassword = async (payload, token) => {
+export const updatePassword = async (payload) => {
     const response = await fetch(`${mainUrl}${USER_PATH.UPDATE_PASSWORD}`, {
         method: 'PUT',
-        headers: createHeaders(token),
+        headers: createHeaders(tokenFromCookie),
         body: JSON.stringify(payload),
     });
     return response.json();
 };
 
-export const uploadUserImage = async (formData, token) => {
+export const uploadUserImage = async (formData) => {
     const response = await fetch(`${mainUrl}${USER_PATH.UPLOAD_IMAGE}`, {
         method: 'POST',
         headers: { 
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${tokenFromCookie}`,
         },
         body: formData,
     });
